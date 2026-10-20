@@ -10,89 +10,103 @@
     android:orientation="vertical"
     android:background="@color/background_app">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/sidebar_guideline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.32"/>
+
+    <ImageView
+        android:id="@+id/bedrock_banner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bedrock_banner_art"
         app:layout_constraintBottom_toTopOf="@id/_background_display_view"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/sidebar_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/bedrock_banner_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/minecraft_ten"
+        android:gravity="center"
+        android:text="@string/fork_banner_title"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_20ssp"
+        app:layout_constraintBottom_toBottomOf="@id/bedrock_banner"
+        app:layout_constraintEnd_toEndOf="@id/bedrock_banner"
+        app:layout_constraintStart_toStartOf="@id/bedrock_banner"
+        app:layout_constraintTop_toTopOf="@id/bedrock_banner" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/background_bottom_bar"
+        app:layout_constraintBottom_toTopOf="@id/_background_display_view"
+        app:layout_constraintEnd_toEndOf="@id/sidebar_guideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/center_guideline"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/news_button"
                 style="@style/LauncherMenuButton.Universal"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_px_book"
-                android:text="@string/mcl_tab_wiki"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/social_divider"/>
-            <View
-                android:id="@+id/social_divider"
-                style="@style/LauncherFragment_Divider"
-                android:layout_marginVertical="@dimen/padding_heavy"
-                app:layout_constraintTop_toTopOf="@id/news_button"
-                app:layout_constraintStart_toStartOf="@id/center_guideline"
-                app:layout_constraintEnd_toEndOf="@id/center_guideline"
-                app:layout_constraintBottom_toBottomOf="@id/news_button"/>
+                android:text="@string/mcl_tab_wiki" />
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/social_media_button"
                 style="@style/LauncherMenuButton.Universal"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_social_media"
-                android:text="@string/mcl_button_social_media"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/social_divider"/>
-
+                android:text="@string/mcl_button_social_media" />
+            <com.kdt.mcgui.LauncherMenuButton
+                android:id="@+id/mods_button"
+                style="@style/LauncherMenuButton.Universal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:drawableStart="@drawable/ic_px_sliders"
+                android:text="@string/fork_mods_button" />
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/custom_control_button"
                 style="@style/LauncherMenuButton.Universal"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_px_gamepad"
-                android:text="@string/mcl_option_customcontrol"
-                app:layout_constraintTop_toBottomOf="@id/news_button"/>
-
+                android:text="@string/mcl_option_customcontrol" />
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/install_jar_button"
                 style="@style/LauncherMenuButton.Universal"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_px_java_run"
-                android:text="@string/main_install_jar_file"
-                app:layout_constraintTop_toBottomOf="@id/custom_control_button"
-                tools:layout_editor_absoluteX="0dp" />
-
+                android:text="@string/main_install_jar_file" />
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/share_logs_button"
                 style="@style/LauncherMenuButton.Universal"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_px_sharelog"
-                android:text="@string/main_share_logs"
-                app:layout_constraintTop_toBottomOf="@id/install_jar_button" />
-
+                android:text="@string/main_share_logs" />
             <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/open_files_button"
                 style="@style/LauncherMenuButton.Universal"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
                 android:drawableStart="@drawable/ic_px_folder"
-                android:text="@string/mcl_button_open_directory"
-
-                app:layout_constraintTop_toBottomOf="@id/share_logs_button" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                android:text="@string/mcl_button_open_directory" />
+        </LinearLayout>
     </ScrollView>
-
-
-
 
     <com.kdt.mcgui.mcVersionSpinner
         android:id="@+id/mc_version_spinner"

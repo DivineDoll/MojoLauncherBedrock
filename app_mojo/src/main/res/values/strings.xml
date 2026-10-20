@@ -544,4 +544,5 @@
     <string name="pref_blocklist_disable_title">Disable server blocklist</string>
     <string name="pref_blocklist_disable_description">Prevent the MC server blocklist from loading. This allows you to play on blocked servers (like 6b6t.org)</string>
     <string name="fork_banner_title">Mi Launcher</string>
+    <string name="fork_mods_button">Mods</string>
 </resources>
