@@ -57,6 +57,7 @@ public class MainMenuFragment extends Fragment {
 
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
+        mPlayButton.setBackgroundResource(R.drawable.bedrock_play_background);
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
 
         mNewsButton.setOnClickListener(v -> Tools.openURL(requireActivity(), Tools.URL_HOME));
