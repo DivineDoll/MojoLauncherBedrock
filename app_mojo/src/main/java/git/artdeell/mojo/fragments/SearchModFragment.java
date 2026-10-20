@@ -74,6 +74,8 @@ public class SearchModFragment extends Fragment implements ModItemAdapter.Search
     private final SearchFilters mSearchFilters;
 
     private Button mImportButton;
+    private Button mTabMods;
+    private Button mTabModpacks;
     private TaskCountListener mTaskCountListener;
 
     ActivityResultLauncher<String> mImportLauncher = registerForActivityResult(new ActivityResultContracts.GetContent(),
@@ -164,7 +166,11 @@ public class SearchModFragment extends Fragment implements ModItemAdapter.Search
         });
         Bundle fragmentArgs = getArguments();
         mSearchFilters.isModpack = fragmentArgs == null || fragmentArgs.getBoolean(ARG_MODPACK, true);
-        if(!mSearchFilters.isModpack) mImportButton.setVisibility(View.GONE);
+        mTabMods = view.findViewById(R.id.search_tab_mods);
+        mTabModpacks = view.findViewById(R.id.search_tab_modpacks);
+        mTabMods.setOnClickListener(v -> selectSection(false));
+        mTabModpacks.setOnClickListener(v -> selectSection(true));
+        updateSectionViews();
         mTaskCountListener = taskCount -> {
             runOnUiThread(() -> mImportButton.setEnabled(taskCount == 0));
             return false;
@@ -202,6 +208,20 @@ public class SearchModFragment extends Fragment implements ModItemAdapter.Search
                 mStatusTextView.setText(R.string.search_modpack_no_result);
                 break;
         }
+    }
+
+    private void selectSection(boolean modpacks) {
+        if(mSearchFilters.isModpack == modpacks) return;
+        mSearchFilters.isModpack = modpacks;
+        updateSectionViews();
+        searchMods(mSearchEditText.getText().toString());
+    }
+
+    private void updateSectionViews() {
+        boolean modpacks = mSearchFilters.isModpack;
+        mTabMods.setEnabled(modpacks);
+        mTabModpacks.setEnabled(!modpacks);
+        mImportButton.setVisibility(modpacks ? View.VISIBLE : View.GONE);
     }
 
     private void searchMods(String name) {

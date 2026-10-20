@@ -547,4 +547,6 @@
     <string name="fork_mods_button">Mods</string>
     <string name="fork_mod_installed">Mod instalado en la instancia seleccionada</string>
     <string name="fork_mod_no_download">Este mod no permite la descarga directa</string>
+    <string name="fork_tab_mods">Mods</string>
+    <string name="fork_tab_modpacks">Modpacks</string>
 </resources>

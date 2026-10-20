@@ -28,6 +28,30 @@
 
 
         >
+        <!-- Section tabs: mods and modpacks -->
+        <LinearLayout
+            android:id="@+id/search_mod_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/padding_medium"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/search_tab_mods"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fork_tab_mods" />
+
+            <com.kdt.mcgui.MineButton
+                android:id="@+id/search_tab_modpacks"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/fork_tab_modpacks" />
+        </LinearLayout>
+
         <!-- Search text -->
         <EditText
             android:id="@+id/search_mod_edittext"
@@ -41,7 +65,8 @@
             android:hint="@string/hint_search_modpack"
             android:inputType="textPersonName"
             android:paddingHorizontal="@dimen/padding_heavy"
-            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/padding_medium"
+            app:layout_constraintTop_toBottomOf="@id/search_mod_tabs"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/search_mod_filter"
             />
