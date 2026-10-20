@@ -50,6 +50,10 @@ public interface ModpackApi {
      * @param selectedVersion The selected version
      */
     default void handleModpackInstallation(Context context, ModDetail modDetail, int selectedVersion) {
+        if(!modDetail.isModpack) {
+            ModInstaller.installSingleMod(context, modDetail, selectedVersion);
+            return;
+        }
         // Doing this here since when starting installation, the progress does not start immediately
         // which may lead to two concurrent installations (very bad)
         ProgressLayout.setProgress(ProgressLayout.INSTALL_MODPACK, 0, R.string.global_waiting);

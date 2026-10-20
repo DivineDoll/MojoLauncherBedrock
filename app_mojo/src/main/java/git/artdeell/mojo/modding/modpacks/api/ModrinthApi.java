@@ -82,7 +82,7 @@ public class ModrinthApi implements ModpackApi{
                     hit.get("project_id").getAsString(),
                     hit.get("title").getAsString(),
                     hit.get("description").getAsString(),
-                    hit.get("icon_url").getAsString()
+                    hit.get("icon_url") == null || hit.get("icon_url").isJsonNull() ? "" : hit.get("icon_url").getAsString()
             );
         }
         if(modrinthSearchResult == null) modrinthSearchResult = new ModrinthSearchResult();
@@ -106,6 +106,14 @@ public class ModrinthApi implements ModpackApi{
         for (int i=0; i<response.size(); ++i) {
             JsonObject version = response.get(i).getAsJsonObject();
             names[i] = version.get("name").getAsString();
+            if(!item.isModpack && version.has("loaders") && version.get("loaders").isJsonArray()) {
+                StringBuilder loaders = new StringBuilder();
+                for(com.google.gson.JsonElement loader : version.getAsJsonArray("loaders")) {
+                    if(loaders.length() > 0) loaders.append(", ");
+                    loaders.append(loader.getAsString());
+                }
+                if(loaders.length() > 0) names[i] += " [" + loaders + "]";
+            }
             mcNames[i] = version.get("game_versions").getAsJsonArray().get(0).getAsString();
             urls[i] = version.get("files").getAsJsonArray().get(0).getAsJsonObject().get("url").getAsString();
             // Assume there may not be hashes, in case the API changes

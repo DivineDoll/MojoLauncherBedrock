@@ -51,6 +51,7 @@ import java.io.OutputStream;
 public class SearchModFragment extends Fragment implements ModItemAdapter.SearchResultCallback {
 
     public static final String TAG = "SearchModFragment";
+    public static final String ARG_MODPACK = "modpack";
     private View mOverlay;
     private float mOverlayTopCache; // Padding cache reduce resource lookup
 
@@ -161,6 +162,9 @@ public class SearchModFragment extends Fragment implements ModItemAdapter.Search
         mImportButton.setOnClickListener(v -> {
             mImportLauncher.launch("*/*");
         });
+        Bundle fragmentArgs = getArguments();
+        mSearchFilters.isModpack = fragmentArgs == null || fragmentArgs.getBoolean(ARG_MODPACK, true);
+        if(!mSearchFilters.isModpack) mImportButton.setVisibility(View.GONE);
         mTaskCountListener = taskCount -> {
             runOnUiThread(() -> mImportButton.setEnabled(taskCount == 0));
             return false;

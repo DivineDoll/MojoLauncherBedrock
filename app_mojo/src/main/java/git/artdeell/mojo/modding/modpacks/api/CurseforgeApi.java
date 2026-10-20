@@ -92,7 +92,7 @@ public class CurseforgeApi implements ModpackApi{
                     dataElement.get("id").getAsString(),
                     dataElement.get("name").getAsString(),
                     dataElement.get("summary").getAsString(),
-                    dataElement.getAsJsonObject("logo").get("thumbnailUrl").getAsString());
+                    dataElement.get("logo") == null || dataElement.get("logo").isJsonNull() ? "" : dataElement.getAsJsonObject("logo").get("thumbnailUrl").getAsString());
             modItemList.add(modItem);
         }
         if(curseforgeSearchResult == null) curseforgeSearchResult = new CurseforgeSearchResult();
@@ -122,7 +122,7 @@ public class CurseforgeApi implements ModpackApi{
             versionNames[i] = modDetail.get("displayName").getAsString();
 
             JsonElement downloadUrl = modDetail.get("downloadUrl");
-            versionUrls[i] = downloadUrl.getAsString();
+            versionUrls[i] = downloadUrl == null || downloadUrl.isJsonNull() ? null : downloadUrl.getAsString();
 
             JsonArray gameVersions = modDetail.getAsJsonArray("gameVersions");
             for(JsonElement jsonElement : gameVersions) {
@@ -134,6 +134,7 @@ public class CurseforgeApi implements ModpackApi{
                 break;
             }
 
+            if(mcVersionNames[i] == null) mcVersionNames[i] = "";
             hashes[i] = getSha1FromModData(modDetail);
         }
         return new ModDetail(item, versionNames, mcVersionNames, versionUrls, hashes);
