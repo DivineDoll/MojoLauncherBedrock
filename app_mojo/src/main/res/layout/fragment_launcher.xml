@@ -23,17 +23,27 @@
 				android:layout_height="0dp"
 				android:orientation="vertical"
 				app:layout_constraintGuide_percent="0.5"/>
-			<TextView
+			<ImageView
 				android:id="@+id/bedrock_banner"
 				android:layout_width="match_parent"
 				android:layout_height="@dimen/_90sdp"
-				android:background="@drawable/bedrock_banner"
+				android:contentDescription="@null"
+				android:scaleType="centerCrop"
+				android:src="@drawable/bedrock_banner_art"
+				app:layout_constraintTop_toTopOf="parent" />
+			<TextView
+				android:id="@+id/bedrock_banner_title"
+				android:layout_width="0dp"
+				android:layout_height="0dp"
 				android:fontFamily="@font/minecraft_ten"
 				android:gravity="center"
 				android:text="@string/fork_banner_title"
 				android:textColor="@color/primary_text"
 				android:textSize="@dimen/_24ssp"
-				app:layout_constraintTop_toTopOf="parent" />
+				app:layout_constraintTop_toTopOf="@id/bedrock_banner"
+				app:layout_constraintBottom_toBottomOf="@id/bedrock_banner"
+				app:layout_constraintStart_toStartOf="@id/bedrock_banner"
+				app:layout_constraintEnd_toEndOf="@id/bedrock_banner" />
 			<com.kdt.mcgui.LauncherMenuButton
 				android:id="@+id/news_button"
 				style="@style/LauncherMenuButton.Universal"

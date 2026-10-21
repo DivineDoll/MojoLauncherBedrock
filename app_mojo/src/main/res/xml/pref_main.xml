@@ -54,6 +54,13 @@
             android:icon="@drawable/ic_px_experiment"/>
     </PreferenceCategory>
 
+    <Preference
+        android:key="banner_setting"
+        android:title="@string/fork_banner_pick_title"
+        android:summary="@string/fork_banner_setting_summary"
+        android:icon="@drawable/ic_px_image"
+        />
+
     <SwitchPreferenceCompat
         android:title="@string/preference_force_english_title"
         android:key="force_english"

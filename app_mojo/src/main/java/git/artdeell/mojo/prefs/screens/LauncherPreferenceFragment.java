@@ -6,6 +6,10 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +19,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import git.artdeell.mojo.LauncherActivity;
 import git.artdeell.mojo.R;
 import git.artdeell.mojo.prefs.LauncherPreferences;
+import git.artdeell.mojo.utils.BannerManager;
 
 /**
  * Preference for the main screen, any sub-screen should inherit this class for consistent behavior,
@@ -23,10 +28,23 @@ import git.artdeell.mojo.prefs.LauncherPreferences;
 public class LauncherPreferenceFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
     protected Runnable mVisibilityUpdater = () -> {};
 
+    private final ActivityResultLauncher<String> mBannerPicker =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
+                if(uri == null) return;
+                try {
+                    BannerManager.saveCustom(requireContext(), uri);
+                    Toast.makeText(requireContext(), R.string.fork_banner_applied, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(requireContext(), R.string.fork_banner_error, Toast.LENGTH_LONG).show();
+                }
+            });
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         view.setBackgroundColor(getResources().getColor(R.color.background_app));
         super.onViewCreated(view, savedInstanceState);
+        setDivider(null);
+        setDividerHeight(0);
     }
 
     @Override
@@ -34,6 +52,17 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
         mVisibilityUpdater = this::updateVisibility;
         addPreferencesFromResource(R.xml.pref_main);
         setupNotificationRequestPreference();
+        setupBannerPreference();
+    }
+
+    private void setupBannerPreference() {
+        Preference bannerPreference = findPreference("banner_setting");
+        if(bannerPreference == null) return;
+        bannerPreference.setOnPreferenceClickListener(preference -> {
+            BannerManager.showChooser(requireContext(), () -> mBannerPicker.launch("image/*"),
+                    () -> Toast.makeText(requireContext(), R.string.fork_banner_applied, Toast.LENGTH_SHORT).show());
+            return true;
+        });
     }
 
     private void updateVisibility(){

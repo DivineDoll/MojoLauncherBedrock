@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import android.net.Uri;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -28,6 +31,7 @@ import git.artdeell.mojo.extra.ExtraCore;
 import git.artdeell.mojo.instances.Instance;
 import git.artdeell.mojo.instances.Instances;
 import git.artdeell.mojo.progresskeeper.ProgressKeeper;
+import git.artdeell.mojo.utils.BannerManager;
 import git.artdeell.mojo.utils.FileUtils;
 
 import java.io.File;
@@ -41,6 +45,26 @@ public class MainMenuFragment extends Fragment {
             registerForActivityResult(new OpenDocumentWithExtension("jar"), (data)->{
                 if(data != null) Tools.launchModInstaller(requireContext(), data);
             });
+
+    private ImageView mBannerView;
+    private View mBannerTitle;
+
+    private final ActivityResultLauncher<String> mBannerPicker =
+            registerForActivityResult(new ActivityResultContracts.GetContent(), (Uri uri) -> {
+                if(uri == null) return;
+                try {
+                    BannerManager.saveCustom(requireContext(), uri);
+                    refreshBanner();
+                } catch (Exception e) {
+                    Toast.makeText(requireContext(), R.string.fork_banner_error, Toast.LENGTH_LONG).show();
+                }
+            });
+
+    private void refreshBanner() {
+        if(mBannerView == null) return;
+        boolean custom = BannerManager.apply(requireContext(), mBannerView);
+        if(mBannerTitle != null) BannerManager.setTitleVisible(mBannerTitle, custom);
+    }
 
     public MainMenuFragment(){
         super(R.layout.fragment_launcher);
@@ -59,6 +83,11 @@ public class MainMenuFragment extends Fragment {
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
         mPlayButton.setBackgroundResource(R.drawable.bedrock_play_background);
+        mBannerView = view.findViewById(R.id.bedrock_banner);
+        mBannerTitle = view.findViewById(R.id.bedrock_banner_title);
+        refreshBanner();
+        mBannerView.setOnClickListener(v -> BannerManager.showChooser(requireContext(),
+                () -> mBannerPicker.launch("image/*"), this::refreshBanner));
         mVersionSpinner = view.findViewById(R.id.mc_version_spinner);
 
         mNewsButton.setOnClickListener(v -> Tools.openURL(requireActivity(), Tools.URL_HOME));

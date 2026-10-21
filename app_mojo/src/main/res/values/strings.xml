@@ -549,4 +549,13 @@
     <string name="fork_mod_no_download">Este mod no permite la descarga directa</string>
     <string name="fork_tab_mods">Mods</string>
     <string name="fork_tab_modpacks">Modpacks</string>
+    <string name="fork_banner_pick_title">Elegir banner</string>
+    <string name="fork_banner_sunset">Atardecer</string>
+    <string name="fork_banner_day">Día</string>
+    <string name="fork_banner_night">Noche</string>
+    <string name="fork_banner_custom">Imagen personalizada…</string>
+    <string name="fork_banner_error">No se pudo usar esa imagen</string>
+    <string name="fork_banner_desert">Desierto</string>
+    <string name="fork_banner_setting_summary">Elige uno de los banners incluidos o una imagen de tu galería</string>
+    <string name="fork_banner_applied">Banner actualizado</string>
 </resources>
