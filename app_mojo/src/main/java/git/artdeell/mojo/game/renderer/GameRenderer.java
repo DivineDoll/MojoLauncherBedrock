@@ -5,6 +5,7 @@ import static git.artdeell.mojo.game.renderer.def.Renderers.GL4ES_RENDERER;
 import static git.artdeell.mojo.game.renderer.def.Renderers.LEGACYZINK_RENDERER;
 import static git.artdeell.mojo.game.renderer.def.Renderers.LTW_RENDERER;
 import static git.artdeell.mojo.game.renderer.def.Renderers.MESA_RENDERER;
+import static git.artdeell.mojo.game.renderer.def.Renderers.MOBILEGLUES_RENDERER;
 import static git.artdeell.mojo.game.renderer.def.Renderers.MESA_RENDERER_EXT;
 import static git.artdeell.mojo.game.renderer.def.Renderers.ZINK_RENDERER;
 
@@ -65,6 +66,7 @@ public class GameRenderer {
             case "opengles2_5":
             case GL4ES_RENDERER: return new GLESRenderSpec.GL4ESRenderSpec();
             case LTW_RENDERER: return new GLESRenderSpec.LTWRenderSpec();
+            case MOBILEGLUES_RENDERER: return new GLESRenderSpec.MobileGluesRenderSpec();
             case ZINK_RENDERER: return new MesaRenderSpec.ZinkRenderSpec();
             case FREEDRENO_RENDERER: return new MesaRenderSpec.FreedrenoRenderSpec();
             case MESA_RENDERER: return new MesaRenderSpec();

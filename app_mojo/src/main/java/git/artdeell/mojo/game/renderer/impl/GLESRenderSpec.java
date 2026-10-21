@@ -80,4 +80,36 @@ public abstract class GLESRenderSpec implements RenderSpec {
             return 2;
         }
     }
+
+    /**
+     * MobileGlues, a desktop OpenGL wrapper on top of OpenGL ES 3.
+     * Only offered when libmobileglues.so is packaged with the application.
+     */
+    public static class MobileGluesRenderSpec extends GLESRenderSpec {
+        public boolean compatibleDevice(Context context) {
+            return JREUtils.getDetectedVersion() >= 3 && new File(Tools.NATIVE_LIB_DIR, this.library()).exists();
+        }
+        public void setupEnvironment(Context context, Map<String, String> envMap) {
+            super.setupEnvironment(context, envMap);
+            File configDirectory = new File(Tools.DIR_GAME_HOME, "MobileGlues");
+            if(configDirectory.isDirectory() || configDirectory.mkdirs()) {
+                envMap.put("MG_DIR_PATH", configDirectory.getAbsolutePath());
+            }
+        }
+        public String name() {
+            return "MobileGlues";
+        }
+        public int displayName() {
+            return R.string.mcl_setting_renderer_mobileglues;
+        }
+        public String tag() {
+            return Renderers.MOBILEGLUES_RENDERER;
+        }
+        public String library() {
+            return "libmobileglues.so";
+        }
+        protected int glesVersion() {
+            return 3;
+        }
+    }
 }
