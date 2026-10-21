@@ -61,6 +61,13 @@
         android:icon="@drawable/ic_px_image"
         />
 
+    <Preference
+        android:key="offline_skin_setting"
+        android:title="@string/fork_skin_title"
+        android:summary="@string/fork_skin_summary"
+        android:icon="@drawable/ic_px_image"
+        />
+
     <SwitchPreferenceCompat
         android:title="@string/preference_force_english_title"
         android:key="force_english"

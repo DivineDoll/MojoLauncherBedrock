@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import git.artdeell.mojo.authenticator.accounts.OfflineSkin;
 import git.artdeell.mojo.Architecture;
 import git.artdeell.mojo.JVersionList;
 import git.artdeell.mojo.Tools;
@@ -182,6 +183,7 @@ public class GameRunner {
                 }
             }
         File gamedir = instance.getGameDirectory();
+        OfflineSkin.applyToGameDirectory(activity, account, gamedir);
         JVersionList.Version versionInfo = Tools.getVersionInfo(versionId);
         // We don't need the library list, the asset index, client download info for the code below
         versionInfo.libraries = null;

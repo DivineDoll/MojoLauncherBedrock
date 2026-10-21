@@ -559,4 +559,13 @@
     <string name="fork_banner_desert">Desierto</string>
     <string name="fork_banner_setting_summary">Elige uno de los banners incluidos o una imagen de tu galería</string>
     <string name="fork_banner_applied">Banner actualizado</string>
+    <string name="fork_skin_title">Skin de cuenta offline</string>
+    <string name="fork_skin_summary">Elige una skin para tu cuenta offline</string>
+    <string name="fork_skin_only_offline">Esta opción es solo para cuentas offline</string>
+    <string name="fork_skin_dialog_message">La skin se aplica al iniciar el juego con CustomSkinLoader. Instálalo desde la sección Mods. Los demás jugadores en un servidor solo la verán si el servidor usa un sistema de skins como SkinsRestorer.</string>
+    <string name="fork_skin_choose">Elegir skin (PNG 64x64)</string>
+    <string name="fork_skin_remove">Quitar skin</string>
+    <string name="fork_skin_saved">Skin guardada</string>
+    <string name="fork_skin_removed">Skin eliminada</string>
+    <string name="fork_skin_error">La skin debe ser un PNG de 64x64 o 64x32 píxeles</string>
 </resources>
