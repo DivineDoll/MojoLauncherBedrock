@@ -559,8 +559,8 @@
     <string name="fork_banner_desert">Desierto</string>
     <string name="fork_banner_setting_summary">Elige uno de los banners incluidos o una imagen de tu galería</string>
     <string name="fork_banner_applied">Banner actualizado</string>
-    <string name="fork_skin_title">Skin de cuenta offline</string>
-    <string name="fork_skin_summary">Elige una skin para tu cuenta offline</string>
+    <string name="fork_skin_title">Skins</string>
+    <string name="fork_skin_summary">Tus skins importadas, con vista previa del modelo</string>
     <string name="fork_skin_only_offline">Esta opción es solo para cuentas offline</string>
     <string name="fork_skin_dialog_message">La skin se aplica al iniciar el juego con CustomSkinLoader. Instálalo desde la sección Mods. Los demás jugadores en un servidor solo la verán si el servidor usa un sistema de skins como SkinsRestorer.</string>
     <string name="fork_skin_choose">Elegir skin (PNG 64x64)</string>
@@ -569,4 +569,16 @@
     <string name="fork_skin_removed">Skin eliminada</string>
     <string name="fork_skin_error">La skin debe ser un PNG de 64x64 o 64x32 píxeles</string>
     <string name="fork_stick_bitmap">Imagen de la bolita (mantén pulsado para quitar)</string>
+    <string name="fork_skins_title">Mis skins</string>
+    <string name="fork_skins_hint">Toca el modelo para girarlo. Elige una skin y pulsa Usar.</string>
+    <string name="fork_skins_empty">Aún no tienes skins guardadas. Pulsa Importar y elige un PNG de 64x64.</string>
+    <string name="fork_skins_import">Importar</string>
+    <string name="fork_skins_apply">Usar</string>
+    <string name="fork_skins_delete">Eliminar</string>
+    <string name="fork_skins_no_account">Inicia sesión con una cuenta primero</string>
+    <string name="fork_skins_applied_offline">Skin aplicada a tu cuenta offline</string>
+    <string name="fork_skins_uploading">Subiendo la skin a tu cuenta…</string>
+    <string name="fork_skins_applied_online">Skin cambiada en tu cuenta de Microsoft</string>
+    <string name="fork_skins_upload_error">No se pudo subir la skin (%1$s). Cierra sesión, vuelve a entrar e inténtalo otra vez.</string>
+    <string name="fork_skins_unsupported">Este tipo de cuenta no permite cambiar la skin desde aquí. Se guardó en tu biblioteca.</string>
 </resources>

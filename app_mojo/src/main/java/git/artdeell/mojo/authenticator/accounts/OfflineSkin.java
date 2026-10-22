@@ -51,6 +51,13 @@ public class OfflineSkin {
         }
     }
 
+    /** Uses an already validated library skin for the offline account. */
+    public static void setFromFile(Context context, Account account, File png) throws IOException {
+        File target = skinFile(context, account.username);
+        FileUtils.ensureParentDirectory(target);
+        org.apache.commons.io.FileUtils.copyFile(png, target);
+    }
+
     public static void removeSkin(Context context, Account account) {
         File file = skinFile(context, account.username);
         if(file.exists()) file.delete();

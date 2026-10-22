@@ -23,7 +23,8 @@ import git.artdeell.mojo.R;
 import git.artdeell.mojo.prefs.LauncherPreferences;
 import git.artdeell.mojo.authenticator.accounts.Account;
 import git.artdeell.mojo.authenticator.accounts.Accounts;
-import git.artdeell.mojo.authenticator.accounts.OfflineSkin;
+import git.artdeell.mojo.authenticator.accounts.SkinLibrary;
+import git.artdeell.mojo.utils.SkinLibraryDialog;
 import git.artdeell.mojo.utils.BannerManager;
 
 /**
@@ -36,14 +37,13 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
     private final ActivityResultLauncher<String> mSkinPicker =
             registerForActivityResult(new ActivityResultContracts.GetContent(), uri -> {
                 if(uri == null) return;
-                Account account = Accounts.getCurrent();
-                if(account == null || !account.isLocal()) return;
                 try {
-                    OfflineSkin.importSkin(requireContext(), account, uri);
+                    SkinLibrary.importSkin(requireContext(), uri);
                     Toast.makeText(requireContext(), R.string.fork_skin_saved, Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Toast.makeText(requireContext(), R.string.fork_skin_error, Toast.LENGTH_LONG).show();
                 }
+                SkinLibraryDialog.show(requireContext(), () -> mSkinPicker.launch("image/png"));
             });
 
     private final ActivityResultLauncher<String> mBannerPicker =
@@ -78,21 +78,7 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
         Preference skinPreference = findPreference("offline_skin_setting");
         if(skinPreference == null) return;
         skinPreference.setOnPreferenceClickListener(preference -> {
-            Account account = Accounts.getCurrent();
-            if(account == null || !account.isLocal()) {
-                Toast.makeText(requireContext(), R.string.fork_skin_only_offline, Toast.LENGTH_LONG).show();
-                return true;
-            }
-            new AlertDialog.Builder(requireContext())
-                    .setTitle(R.string.fork_skin_title)
-                    .setMessage(R.string.fork_skin_dialog_message)
-                    .setPositiveButton(R.string.fork_skin_choose, (d, w) -> mSkinPicker.launch("image/png"))
-                    .setNeutralButton(R.string.fork_skin_remove, (d, w) -> {
-                        OfflineSkin.removeSkin(requireContext(), account);
-                        Toast.makeText(requireContext(), R.string.fork_skin_removed, Toast.LENGTH_SHORT).show();
-                    })
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show();
+            SkinLibraryDialog.show(requireContext(), () -> mSkinPicker.launch("image/png"));
             return true;
         });
     }
