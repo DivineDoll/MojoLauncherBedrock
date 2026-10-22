@@ -43,7 +43,7 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
                 } catch (Exception e) {
                     Toast.makeText(requireContext(), R.string.fork_skin_error, Toast.LENGTH_LONG).show();
                 }
-                SkinLibraryDialog.show(requireContext(), () -> mSkinPicker.launch("image/png"));
+                openSkinLibrary();
             });
 
     private final ActivityResultLauncher<String> mBannerPicker =
@@ -74,11 +74,15 @@ public class LauncherPreferenceFragment extends PreferenceFragmentCompat impleme
         setupSkinPreference();
     }
 
+    private void openSkinLibrary() {
+        SkinLibraryDialog.show(requireContext(), () -> mSkinPicker.launch("image/png"));
+    }
+
     private void setupSkinPreference() {
         Preference skinPreference = findPreference("offline_skin_setting");
         if(skinPreference == null) return;
         skinPreference.setOnPreferenceClickListener(preference -> {
-            SkinLibraryDialog.show(requireContext(), () -> mSkinPicker.launch("image/png"));
+            openSkinLibrary();
             return true;
         });
     }
