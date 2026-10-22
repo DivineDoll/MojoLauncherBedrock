@@ -280,7 +280,7 @@ public class GameRunner {
         FileUtils.ensureDirectory(lwjglExtractDir);
         javaArgList.add("-Dorg.lwjgl.system.SharedLibraryExtractPath="+lwjglExtractDir.getAbsolutePath());
 
-        addAuthlibInjectorArgs(javaArgList, account);
+        addAuthlibInjectorArgs(javaArgList, account, activity);
         addNoBlocklistArgs(javaArgList);
 
         mergeMoJsonArgs(javaArgList, getMoJsonJvmArgs(versionId));
@@ -349,8 +349,21 @@ public class GameRunner {
         }
     }
 
-    private static void addAuthlibInjectorArgs(List<String> javaArgList, Account account) {
+    private static void addAuthlibInjectorArgs(List<String> javaArgList, Account account, android.content.Context context) {
         String injectorUrl = account.authType.injectorUrl;
+        if(injectorUrl == null && account.isLocal()) {
+            // Offline account with a skin: serve it from a loopback server so vanilla can show it
+            try {
+                java.io.File skin = git.artdeell.mojo.authenticator.accounts.OfflineSkin.getSkinFile(context, account);
+                if(skin != null) {
+                    android.graphics.Bitmap bitmap = git.artdeell.mojo.authenticator.accounts.SkinLibrary.loadFile(skin);
+                    boolean slim = bitmap != null && git.artdeell.mojo.authenticator.accounts.SkinLibrary.isSlim(bitmap);
+                    injectorUrl = git.artdeell.mojo.authenticator.accounts.LocalSkinServer.start(skin, account.username, account.profileId, slim);
+                }
+            } catch (Exception e) {
+                Log.w("GameRunner", "Could not start the local skin server", e);
+            }
+        }
         if(injectorUrl == null) return;
         javaArgList.add("-javaagent:"+Tools.DIR_DATA+"/authlib-injector/authlib-injector.jar="+injectorUrl);
     }

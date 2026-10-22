@@ -58,6 +58,11 @@ public class OfflineSkin {
         org.apache.commons.io.FileUtils.copyFile(png, target);
     }
 
+    /** @return the stored skin file of the offline account, or null when it has none */
+    public static File getSkinFile(Context context, Account account) {
+        return hasSkin(context, account) ? skinFile(context, account.username) : null;
+    }
+
     public static void removeSkin(Context context, Account account) {
         File file = skinFile(context, account.username);
         if(file.exists()) file.delete();

@@ -100,6 +100,10 @@ public class SkinLibrary {
         return BitmapFactory.decodeFile(entry.file.getAbsolutePath());
     }
 
+    public static Bitmap loadFile(File file) {
+        return BitmapFactory.decodeFile(file.getAbsolutePath());
+    }
+
     /** Alex (slim) skins have a transparent last column on the arms. */
     public static boolean isSlim(Bitmap skin) {
         if(skin.getWidth() != 64 || skin.getHeight() != 64) return false;
