@@ -12,6 +12,12 @@ import static git.artdeell.mojo.input.gamepad.GamepadJoystick.DIRECTION_WEST;
 import static git.artdeell.mojo.game.platform.Platform.PLATFORM;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -19,6 +25,7 @@ import git.artdeell.mojo.Tools;
 import git.artdeell.mojo.input.ControlData;
 import git.artdeell.mojo.input.ControlJoystickData;
 import git.artdeell.mojo.input.ControlLayout;
+import git.artdeell.mojo.input.LayoutBitmaps;
 import git.artdeell.mojo.input.gamepad.GamepadJoystick;
 import git.artdeell.mojo.input.handleview.EditControlSideDialog;
 
@@ -38,6 +45,9 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
     private ControlJoystickData mControlData;
     private int mLastDirectionInt = GamepadJoystick.DIRECTION_NONE;
     private int mCurrentDirectionInt = GamepadJoystick.DIRECTION_NONE;
+    private Bitmap mBaseBitmap;
+    private Bitmap mStickBitmap;
+    private final RectF mStickBounds = new RectF();
     public ControlJoystick(ControlLayout parent, ControlJoystickData data) {
         super(parent.getContext());
         init(data, parent);
@@ -120,9 +130,46 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
 
     @Override
     public void setBackground() {
-        setBorderWidth((int) Tools.dpToPx(getProperties().strokeWidth * (getControlLayoutParent().getLayoutScale()/100f)));
-        setBorderColor(getProperties().strokeColor);
-        setBackgroundColor(getProperties().bgColor);
+        ControlJoystickData data = (ControlJoystickData) getProperties();
+        LayoutBitmaps storage = getControlLayoutParent().getBitmaps();
+        Bitmap baseBitmap = Tools.isValidString(data.bitmapTag) ? storage.getBitmap(data.bitmapTag) : null;
+        Bitmap stickBitmap = Tools.isValidString(data.stickBitmapTag) ? storage.getBitmap(data.stickBitmapTag) : null;
+
+        if (baseBitmap != null) {
+            // The library only draws plain circles, so the base image goes behind it as the view background
+            setBorderWidth(0);
+            setBorderColor(Color.TRANSPARENT);
+            setBackgroundColor(Color.TRANSPARENT);
+            if (baseBitmap != mBaseBitmap) {
+                super.setBackground(new BitmapDrawable(getResources(), baseBitmap));
+            }
+        } else {
+            if (mBaseBitmap != null) super.setBackground((Drawable) null);
+            setBorderWidth((int) Tools.dpToPx(getProperties().strokeWidth * (getControlLayoutParent().getLayoutScale()/100f)));
+            setBorderColor(getProperties().strokeColor);
+            setBackgroundColor(getProperties().bgColor);
+        }
+        mBaseBitmap = baseBitmap;
+
+        // With a custom image the library circle is hidden and the image is drawn in onDraw
+        setButtonColor(stickBitmap != null ? Color.TRANSPARENT : Color.BLACK);
+        mStickBitmap = stickBitmap;
+        invalidate();
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (mStickBitmap == null) return;
+        int width = getWidth();
+        int height = getHeight();
+        int stickRadius = (int) (Math.min(width, height) / 2f * getButtonSizeRatio());
+        if (stickRadius <= 0 || width - 2 * stickRadius <= 0 || height - 2 * stickRadius <= 0) return;
+        // Normalized coordinates go from 0 to 100 across the area the center of the stick can reach
+        float centerX = stickRadius + getNormalizedX() / 100f * (width - 2 * stickRadius);
+        float centerY = stickRadius + getNormalizedY() / 100f * (height - 2 * stickRadius);
+        mStickBounds.set(centerX - stickRadius, centerY - stickRadius, centerX + stickRadius, centerY + stickRadius);
+        canvas.drawBitmap(mStickBitmap, null, mStickBounds, null);
     }
 
     @Override

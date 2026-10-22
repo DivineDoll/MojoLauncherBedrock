@@ -69,6 +69,7 @@ public class EditControlSideDialog extends SideDialogView {
     private SeekBar mStrokeWidthSeekbar, mCornerRadiusSeekbar, mAlphaSeekbar;
     private TextView mStrokePercentTextView, mCornerRadiusPercentTextView, mAlphaPercentTextView;
     private TextView mSelectBackgroundBitmap, mSelectBackgroundColor, mSelectStrokeColor;
+    private TextView mSelectStickBitmap;
     private ArrayAdapter<String> mAdapter;
     private List<String> mSpecialArray;
     private CheckBox mDisplayInGameCheckbox, mDisplayInMenuCheckbox;
@@ -160,6 +161,7 @@ public class EditControlSideDialog extends SideDialogView {
      */
     public void loadValues(ControlData data) {
         setDefaultVisibilitySetting();
+        mSelectStickBitmap.setVisibility(GONE);
         mOrientationTextView.setVisibility(GONE);
         mOrientationSpinner.setVisibility(GONE);
         mForwardLockSwitch.setVisibility(GONE);
@@ -254,7 +256,9 @@ public class EditControlSideDialog extends SideDialogView {
         mAbsoluteTrackingSwitch.setVisibility(VISIBLE);
         mAbsoluteTrackingSwitch.setChecked(data.absolute);
 
-        mSelectBackgroundBitmap.setVisibility(GONE);
+        boolean inEditor = mCurrentlyEditedButton.getControlView().getContext() instanceof CustomControlsActivity;
+        mSelectBackgroundBitmap.setVisibility(inEditor ? VISIBLE : GONE);
+        mSelectStickBitmap.setVisibility(inEditor ? VISIBLE : GONE);
     }
 
     /**
@@ -347,6 +351,7 @@ public class EditControlSideDialog extends SideDialogView {
         mCornerRadiusSeekbar = mDialogContent.findViewById(R.id.editCornerRadius_seekbar);
         mAlphaSeekbar = mDialogContent.findViewById(R.id.editButtonOpacity_seekbar);
         mSelectBackgroundBitmap = mDialogContent.findViewById(R.id.setBackgroundBitmap_textView);
+        mSelectStickBitmap = mDialogContent.findViewById(R.id.setStickBitmap_textView);
         mSelectBackgroundColor = mDialogContent.findViewById(R.id.editBackgroundColor_textView);
         mSelectStrokeColor = mDialogContent.findViewById(R.id.editStrokeColor_textView);
         mStrokePercentTextView = mDialogContent.findViewById(R.id.editStrokeWidth_textView_percent);
@@ -549,6 +554,48 @@ public class EditControlSideDialog extends SideDialogView {
             if(context instanceof CustomControlsActivity) {
                 ((CustomControlsActivity)context).startCropping(receiver);
             }
+        });
+
+        mSelectStickBitmap.setOnClickListener(v -> {
+            if(!(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData)) return;
+            final View mTargetView = mCurrentlyEditedButton.getControlView();
+            CropperUtils.CropperReceiver receiver = new CropperUtils.CropperReceiver() {
+                @Override
+                public float getAspectRatio() {
+                    return 1f;
+                }
+
+                @Override
+                public int getTargetMaxSide() {
+                    return Math.max(64, Math.min(mTargetView.getWidth(), mTargetView.getHeight()) / 2);
+                }
+
+                @Override
+                public void onCropped(Bitmap contentBitmap) {
+                    ControlJoystickData joystickData = (ControlJoystickData) mCurrentlyEditedButton.getProperties();
+                    LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+                    joystickData.stickBitmapTag = storage.putBitmap(contentBitmap, joystickData.stickBitmapTag);
+                    mCurrentlyEditedButton.setBackground();
+                }
+
+                @Override
+                public void onFailed(Exception exception) {
+                    Tools.showError(mTargetView.getContext(), exception);
+                }
+            };
+            Context context = mTargetView.getContext();
+            if(context instanceof CustomControlsActivity) {
+                ((CustomControlsActivity)context).startCropping(receiver);
+            }
+        });
+        mSelectStickBitmap.setOnLongClickListener(v -> {
+            if(!(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData)) return false;
+            ControlJoystickData joystickData = (ControlJoystickData) mCurrentlyEditedButton.getProperties();
+            LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+            storage.putBitmap(null, joystickData.stickBitmapTag);
+            joystickData.stickBitmapTag = null;
+            mCurrentlyEditedButton.setBackground();
+            return true;
         });
 
         mSelectBackgroundColor.setOnClickListener(v -> {

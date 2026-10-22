@@ -66,6 +66,10 @@ public class AsyncAssetManager {
         sExecutorService.execute(() -> {
             try {
                 Tools.copyAssetFile(ctx, "default.json", Tools.CTRLMAP_PATH, false);
+                for(String preset : new String[]{"Bedrock_Tocar", "Bedrock_Cruz_filar", "Bedrock_Clasico"}) {
+                    // Always overwrite: presets are ours, users should "Save as" to customize them
+                    Tools.copyAssetFile(ctx, "controls/" + preset + ".json", Tools.CTRLMAP_PATH, true);
+                }
                 Tools.copyAssetFile(ctx, "launcher_profiles.json", Tools.DIR_GAME_NEW, false);
                 Tools.copyAssetFile(ctx,"resolv.conf",Tools.DIR_DATA, false);
             } catch (IOException e) {

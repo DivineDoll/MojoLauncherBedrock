@@ -568,4 +568,5 @@
     <string name="fork_skin_saved">Skin guardada</string>
     <string name="fork_skin_removed">Skin eliminada</string>
     <string name="fork_skin_error">La skin debe ser un PNG de 64x64 o 64x32 píxeles</string>
+    <string name="fork_stick_bitmap">Imagen de la bolita (mantén pulsado para quitar)</string>
 </resources>
