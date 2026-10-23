@@ -78,6 +78,13 @@
                 android:drawableStart="@drawable/ic_px_sliders"
                 android:text="@string/fork_mods_button" />
             <com.kdt.mcgui.LauncherMenuButton
+                android:id="@+id/lan_button"
+                style="@style/LauncherMenuButton.Universal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:drawableStart="@drawable/ic_px_gamepad"
+                android:text="@string/fork_lan_button" />
+            <com.kdt.mcgui.LauncherMenuButton
                 android:id="@+id/custom_control_button"
                 style="@style/LauncherMenuButton.Universal"
                 android:layout_width="match_parent"

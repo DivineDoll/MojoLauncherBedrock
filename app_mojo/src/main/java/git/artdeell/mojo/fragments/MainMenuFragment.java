@@ -75,6 +75,7 @@ public class MainMenuFragment extends Fragment {
         Button mNewsButton = view.findViewById(R.id.news_button);
         Button mDiscordButton = view.findViewById(R.id.social_media_button);
         Button mModsButton = view.findViewById(R.id.mods_button);
+        Button mLanButton = view.findViewById(R.id.lan_button);
         Button mCustomControlButton = view.findViewById(R.id.custom_control_button);
         Button mInstallJarButton = view.findViewById(R.id.install_jar_button);
         Button mShareLogsButton = view.findViewById(R.id.share_logs_button);
@@ -97,6 +98,7 @@ public class MainMenuFragment extends Fragment {
             modsArgs.putBoolean(SearchModFragment.ARG_MODPACK, false);
             Tools.swapFragment(requireActivity(), SearchModFragment.class, SearchModFragment.TAG, modsArgs);
         });
+        mLanButton.setOnClickListener(v -> Tools.swapFragment(requireActivity(), LanFragment.class, LanFragment.TAG, null));
         mCustomControlButton.setOnClickListener(v -> startActivity(new Intent(requireContext(), CustomControlsActivity.class)));
         mInstallJarButton.setOnClickListener(v -> runInstallerWithConfirmation());
         mEditProfileButton.setOnClickListener(v -> mVersionSpinner.openProfileEditor(requireActivity()));
