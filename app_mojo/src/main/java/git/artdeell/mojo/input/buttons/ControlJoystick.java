@@ -163,11 +163,20 @@ public class ControlJoystick extends JoystickView implements ControlInterface {
         if (mStickBitmap == null) return;
         int width = getWidth();
         int height = getHeight();
-        int stickRadius = (int) (Math.min(width, height) / 2f * getButtonSizeRatio());
+        float scale = mControlData != null && mControlData.stickScale > 0 ? Math.max(0.5f, Math.min(1.5f, mControlData.stickScale)) : 1f;
+        int stickRadius = (int) (Math.min(width, height) / 2f * getButtonSizeRatio() * scale);
         if (stickRadius <= 0 || width - 2 * stickRadius <= 0 || height - 2 * stickRadius <= 0) return;
-        // Normalized coordinates go from 0 to 100 across the area the center of the stick can reach
-        float centerX = stickRadius + getNormalizedX() / 100f * (width - 2 * stickRadius);
-        float centerY = stickRadius + getNormalizedY() / 100f * (height - 2 * stickRadius);
+        float centerX;
+        float centerY;
+        if (mControlData != null && mControlData.lockCenter) {
+            // The stick never moves: it stays in the middle of the joystick
+            centerX = width / 2f;
+            centerY = height / 2f;
+        } else {
+            // Normalized coordinates go from 0 to 100 across the area the center of the stick can reach
+            centerX = stickRadius + getNormalizedX() / 100f * (width - 2 * stickRadius);
+            centerY = stickRadius + getNormalizedY() / 100f * (height - 2 * stickRadius);
+        }
         mStickBounds.set(centerX - stickRadius, centerY - stickRadius, centerX + stickRadius, centerY + stickRadius);
         canvas.drawBitmap(mStickBitmap, null, mStickBounds, null);
     }

@@ -11,6 +11,10 @@ public class ControlJoystickData extends ControlData {
     public boolean absolute = false;
     /* Image shown as the moving part (the little circle) of the joystick, the base uses bitmapTag */
     public String stickBitmapTag;
+    /* Keep the stick (the little circle) fixed in the center of the joystick */
+    public boolean lockCenter = false;
+    /* Size of the stick relative to the default, from 0.5 to 1.5 */
+    public float stickScale = 1f;
 
     public ControlJoystickData(){
         super();
@@ -21,5 +25,7 @@ public class ControlJoystickData extends ControlData {
         forwardLock = properties.forwardLock;
         absolute = properties.absolute;
         stickBitmapTag = properties.stickBitmapTag;
+        lockCenter = properties.lockCenter;
+        stickScale = properties.stickScale;
     }
 }
