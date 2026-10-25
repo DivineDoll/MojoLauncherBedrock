@@ -22,7 +22,9 @@ public class SkinModelView extends GLSurfaceView {
     public SkinModelView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setEGLContextClientVersion(1);
-        setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+        // Opaque surface without alpha: a translucent one lets the dialog show through the model
+        getHolder().setFormat(android.graphics.PixelFormat.OPAQUE);
+        setEGLConfigChooser(8, 8, 8, 0, 16, 0);
         mRenderer = new Renderer();
         setRenderer(mRenderer);
         setRenderMode(RENDERMODE_CONTINUOUSLY);
