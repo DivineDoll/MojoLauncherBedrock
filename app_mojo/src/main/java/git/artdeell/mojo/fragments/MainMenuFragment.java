@@ -83,7 +83,12 @@ public class MainMenuFragment extends Fragment {
 
         ImageButton mEditProfileButton = view.findViewById(R.id.edit_profile_button);
         Button mPlayButton = view.findViewById(R.id.play_button);
-        mPlayButton.setBackgroundResource(R.drawable.bedrock_play_background);
+        mPlayButton.setBackground(git.artdeell.mojo.utils.PlayColor.background(requireContext()));
+        mPlayButton.setOnLongClickListener(v -> {
+            git.artdeell.mojo.utils.PlayColor.choose(requireContext(), () ->
+                    mPlayButton.setBackground(git.artdeell.mojo.utils.PlayColor.background(requireContext())));
+            return true;
+        });
         mBannerView = view.findViewById(R.id.bedrock_banner);
         mBannerTitle = view.findViewById(R.id.bedrock_banner_title);
         refreshBanner();

@@ -611,4 +611,5 @@
     <string name="fork_lan_state_error">Ocurrió un error de red. Detén la sala e inténtalo otra vez.</string>
     <string name="fork_lan_notification_channel">LAN con amigos</string>
     <string name="fork_lan_notification_title">LAN con amigos</string>
+    <string name="fork_play_color_title">Color del botón Play</string>
 </resources>
