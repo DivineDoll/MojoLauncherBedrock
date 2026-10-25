@@ -39,7 +39,7 @@ public class SkinLibraryDialog {
         int pad = dp(context, 16);
         root.setPadding(pad, pad / 2, pad, 0);
 
-        SkinPreviewView preview = new SkinPreviewView(context);
+        SkinModelView preview = new SkinModelView(context);
         root.addView(preview, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(context, 220)));
 
         TextView hint = new TextView(context);
