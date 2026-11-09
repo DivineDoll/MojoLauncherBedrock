@@ -142,7 +142,7 @@ static void update_dims(jint width, jint height) {
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeBeginRendering(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeBeginRendering(JNIEnv *env,
                                                                                jclass clazz,
                                                                                jobject surface,
                                                                                jint bridge_width,
@@ -157,7 +157,7 @@ Java_git_artdeell_mojo_awt_AWTBridge_nativeBeginRendering(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeMoveWindow(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeMoveWindow(JNIEnv *env,
                                                                            jclass clazz, jint xoff,
                                                                            jint yoff) {
     if (JNIEnv_InputRuntime == NULL) {
@@ -192,13 +192,13 @@ Java_git_artdeell_mojo_awt_AWTBridge_nativeMoveWindow(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeEndRendering(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeEndRendering(JNIEnv *env,
                                                                              jclass clazz) {
     render_loop_shutdown();
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeResize(JNIEnv *env, jclass clazz,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeResize(JNIEnv *env, jclass clazz,
                                                                        jint bridge_width,
                                                                        jint bridge_height) {
     update_dims(bridge_width, bridge_height);

@@ -20,19 +20,19 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import git.artdeell.mojo.R;
+import com.divinedoll.launcher.R;
 
-import git.artdeell.mojo.MojoApplication;
-import git.artdeell.mojo.Tools;
-import git.artdeell.mojo.extra.ExtraConstants;
-import git.artdeell.mojo.extra.ExtraCore;
-import git.artdeell.mojo.extra.ExtraListener;
-import git.artdeell.mojo.fragments.InstanceEditorFragment;
-import git.artdeell.mojo.fragments.ProfileTypeSelectFragment;
-import git.artdeell.mojo.instances.DisplayInstance;
-import git.artdeell.mojo.instances.Instances;
-import git.artdeell.mojo.instances.InstanceAdapter;
-import git.artdeell.mojo.instances.InstanceAdapterExtra;
+import com.divinedoll.launcher.MojoApplication;
+import com.divinedoll.launcher.Tools;
+import com.divinedoll.launcher.extra.ExtraConstants;
+import com.divinedoll.launcher.extra.ExtraCore;
+import com.divinedoll.launcher.extra.ExtraListener;
+import com.divinedoll.launcher.fragments.InstanceEditorFragment;
+import com.divinedoll.launcher.fragments.ProfileTypeSelectFragment;
+import com.divinedoll.launcher.instances.DisplayInstance;
+import com.divinedoll.launcher.instances.Instances;
+import com.divinedoll.launcher.instances.InstanceAdapter;
+import com.divinedoll.launcher.instances.InstanceAdapterExtra;
 
 import java.io.IOException;
 

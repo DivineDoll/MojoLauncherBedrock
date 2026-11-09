@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- App name part -->
-    <string name="app_short_name">MJLauncher</string>
+    <string name="app_short_name">DivineLauncher</string>
 
     <!-- Action bar part -->
 
@@ -21,7 +21,7 @@
     <string name="alerttitle_installmod">Select a mod installer</string>
 
     <!-- Error messages -->
-    <string name="error_fatal">MJLauncher has unexpectedly crashed</string>
+    <string name="error_fatal">DivineLauncher has unexpectedly crashed</string>
     <string name="error_no_version">No version!</string>
     <string name="error_show_more">Show more</string>
     <string name="error_show_less">Show less</string>
@@ -277,7 +277,7 @@
     <string name="preference_gyro_sample_rate_description">If you have performance issues with gyroscope controls, increase this.</string>
     <string name="microsoft_login_retry_later">Too many requests, please try again later.</string>
     <string name="microsoft_login_generic">Error: %s</string>
-    <string name="storage_required">MJLauncher requires external storage to be attached. Please reconnect it and restart the app.</string>
+    <string name="storage_required">DivineLauncher requires external storage to be attached. Please reconnect it and restart the app.</string>
     <string name="mcl_setting_title_buttonallcaps">Only use capital letters in button labels</string>
     <string name="mcl_setting_subtitle_buttonallcaps">Disable this if you want to use lowercase letters in your controls.</string>
     <string name="create_instance">Create new instance</string>
@@ -382,7 +382,7 @@
     <string name="preference_category_miscellaneous">Miscellaneous settings</string>
     <string name="preference_category_video">Video settings</string>
     <string name="notification_permission_dialog_title">Permission request</string>
-    <string name="notification_permission_dialog_text">MJLauncher requires a permission to post notifications to prevent game/modpack downloads from stopping when you leave the app. Without this permission, Android may shut down your downloads when you put MJLauncher in background mode.</string>
+    <string name="notification_permission_dialog_text">DivineLauncher requires a permission to post notifications to prevent game/modpack downloads from stopping when you leave the app. Without this permission, Android may shut down your downloads when you put DivineLauncher in background mode.</string>
     <string name="notification_permission_toast">You can always change your mind later by going into Settings</string>
     <string name="preference_ask_for_notification_title">Allow notifications</string>
     <string name="preference_ask_for_notification_description">Click to re-request the notification permission, required for game/modpack background downloads to work properly.</string>
@@ -437,7 +437,7 @@
     <string name="mcl_button_social_media">Discord</string>
     <string name="ltw_render_distance_warning_msg">Your GPU is not capable of rendering above 7 render distance without Sodium or other similar mods. The render distance will be automatically reduced when you click "OK".</string>
     <string name="mcl_button_open_directory">Open game directory</string>
-    <string name="social_media_invite" translatable="false">https://discord.gg/VHdwQFsaGX</string>
+    <string name="social_media_invite" translatable="false"></string>
     <string name="local_login_bad_username_title">Unsuitable username</string>
     <string name="local_login_bad_username_text">The username must be between 3–16 characters long, and must only contain latin letters, numbers 0–9 and underscores.</string>
     <string name="quick_setting_title">Quick settings</string>
@@ -529,7 +529,7 @@
     <string name="mjdl_json_error_title">Game metadata error</string>
     <string name="mjdl_json_error_subtitle_1">The data for this version is not available. Check your Internet connection or reinstall it.</string>
     <string name="mjdl_json_error_subtitle_3">The data for this version is corrupt. Turn on game manifest verification and try downloading again.</string>
-    <string name="mjdl_json_error_subtitle_2">The data for this version is malformed. Please report this on our GitHub or on the Discord. (%s)</string>
+    <string name="mjdl_json_error_subtitle_2">The data for this version is malformed. Please report this on our GitHub. (%s)</string>
     <string name="mjdl_native_error_title">Game library error</string>
     <string name="mjdl_native_error_subtitle_1">The library %s requires code for %s, but it is not included.</string>
     <string name="mjdl_native_error_subtitle_2">Failed to extract native libraries</string>
@@ -540,11 +540,11 @@
     <string name="mjdl_disk_error_subtitle_2">Failed to save instance after updating the Java Runtime.</string>
     <string name="mjdl_download_error_title">Download error</string>
     <string name="mjdl_download_error_subtitle">Download failed. Check your internet connection and make sure that you have enough free disk space.</string>
-    <string name="mjdl_download_error_subtitle_2">File verification failed. Please try again. If this error keeps happening, contact us on GitHub or on Discord.</string>
+    <string name="mjdl_download_error_subtitle_2">File verification failed. Please try again. If this error keeps happening, contact us on GitHub.</string>
     <string name="bta_configuring">Configuring BTA…</string>
     <string name="pref_blocklist_disable_title">Disable server blocklist</string>
     <string name="pref_blocklist_disable_description">Prevent the MC server blocklist from loading. This allows you to play on blocked servers (like 6b6t.org)</string>
-    <string name="fork_banner_title">My Launcher</string>
+    <string name="fork_banner_title">DivineLauncher</string>
     <string name="fork_mods_button">Mods</string>
     <string name="fork_mod_installed">Mod installed in the selected instance</string>
     <string name="fork_mod_no_download">This mod does not allow direct download</string>
@@ -896,4 +896,148 @@
         <item>Back up your controls and skins from More options</item>
         <item>Tap this tip to see another one</item>
     </string-array>
+    <string name="fork_files_button">Files</string>
+    <string name="fork_files_title">Instance files</string>
+    <string name="fork_files_mods">Mods</string>
+    <string name="fork_files_config">Config</string>
+    <string name="fork_files_resourcepacks">Resource packs</string>
+    <string name="fork_files_shaderpacks">Shader packs</string>
+    <string name="fork_files_saves">Worlds</string>
+    <string name="fork_files_screenshots">Screenshots</string>
+    <string name="fork_files_logs">Logs</string>
+    <string name="fork_files_crash">Crash reports</string>
+    <string name="fork_files_back">Back</string>
+    <string name="fork_files_all">Select all</string>
+    <string name="fork_files_delete">Delete</string>
+    <string name="fork_files_toggle">Enable / disable selected mods</string>
+    <string name="fork_files_empty">Nothing here</string>
+    <string name="fork_files_confirm">Delete %1$d selected item(s)? This cannot be undone.</string>
+    <string name="fork_files_deleted">Deleted: %1$d</string>
+    <string name="fork_files_sort_size">Sort by size</string>
+    <string name="fork_files_sort_name">Sort by name</string>
+    <string name="fork_files_backups">Backups</string>
+    <string name="fork_files_trash">Trash</string>
+    <string name="fork_files_confirm_trash">Move %1$d item(s) to the trash? You can restore them from Trash.</string>
+    <string name="fork_files_moved">Moved to trash: %1$d</string>
+    <string name="fork_files_backup">Back up selected worlds</string>
+    <string name="fork_files_backup_done">Backups saved: %1$d (see Backups)</string>
+    <string name="fork_files_restore">Restore selected</string>
+    <string name="fork_files_restored">Restored: %1$d</string>
+    <string name="fork_mr_title">Modrinth</string>
+    <string name="fork_mr_hint">Search mods…</string>
+    <string name="fork_mr_search">Search</string>
+    <string name="fork_mr_button">Search Modrinth</string>
+    <string name="fork_mr_update">Update mods</string>
+    <string name="fork_mr_working">Working…</string>
+    <string name="fork_mr_installed">Installed: %1$s</string>
+    <string name="fork_mr_none">No results for this version and loader</string>
+    <string name="fork_mr_updated">Updated mods: %1$d</string>
+    <string name="fork_op_error">Error: %1$s</string>
+    <string name="fork_menu_files">Files, mods and worlds</string>
+    <string name="fork_menu_duplicate">Duplicate</string>
+    <string name="fork_menu_export">Export as .zip</string>
+    <string name="fork_menu_tag">Set tag</string>
+    <string name="fork_dup_suffix"> (copy)</string>
+    <string name="fork_dup_done">Duplicated: %1$s</string>
+    <string name="fork_export_done">Instance exported</string>
+    <string name="fork_import_button">Import</string>
+    <string name="fork_import_suffix"> (imported)</string>
+    <string name="fork_import_done">Imported: %1$s. If it uses a loader such as Fabric, install that version first.</string>
+    <string name="fork_tag_title">Tag</string>
+    <string name="fork_tag_0">None</string>
+    <string name="fork_tag_1">Survival</string>
+    <string name="fork_tag_2">Mods</string>
+    <string name="fork_tag_3">Tests</string>
+    <string name="fork_tag_4">Creative</string>
+    <string name="fork_tag_5">Server</string>
+    <string name="fork_stats_never">Not played yet</string>
+    <string name="fork_stats_played">Played %1$s</string>
+    <string name="fork_stats_last">last played %1$s</string>
+    <string name="fork_quick_hide">Hide controls (F1)</string>
+    <string name="fork_fps_minmax">&#160;(min %1$d · max %2$d)</string>
+    <string name="fork_quick_mirror">Left-handed mode (mirror controls)</string>
+    <string name="fork_lang_title">Language</string>
+    <string name="fork_lang_system">System default</string>
+    <string name="fork_fullscreen">Fullscreen interface</string>
+    <string name="fork_on">ON</string>
+    <string name="fork_off">OFF</string>
+    <string name="fork_home_continue">Continue playing</string>
+    <string name="fork_home_files">Files</string>
+    <string name="fork_home_logs">Log</string>
+    <string name="fork_home_edit">Edit</string>
+    <string name="fork_home_no_instance">No instance selected</string>
+    <string name="fork_mg_title">MobileGlues plugin</string>
+    <string name="fork_mg_summary">Import the library from the installed MobileGlues plugin or open its settings</string>
+    <string name="fork_mg_import">Import library from the plugin</string>
+    <string name="fork_mg_open">Open plugin settings</string>
+    <string name="fork_mg_missing">The MobileGlues plugin app is not installed</string>
+    <string name="fork_mg_done">MobileGlues imported. Pick it in Renderer.</string>
+    <string name="fork_mg_nolib">The plugin has no library for this device</string>
+    <string name="fork_pad_title">Controller</string>
+    <string name="fork_pad_detected">Controller detected: %1$s (%2$s layout)</string>
+    <string name="fork_pad_none">No controller seen yet. Connect one and move a stick.</string>
+    <string name="fork_pad_swap_off">Don\'t swap buttons</string>
+    <string name="fork_pad_swap_on">Swap A↔B and X↔Y</string>
+    <string name="fork_pad_swap_auto">Swap only on Nintendo layout</string>
+    <string name="fork_pad_xbox">Xbox</string>
+    <string name="fork_pad_ps">PlayStation</string>
+    <string name="fork_pad_nintendo">Nintendo</string>
+    <string name="fork_pad_steam">Steam</string>
+    <string name="fork_pad_stadia">Stadia</string>
+    <string name="fork_pad_generic">Generic</string>
+    <string name="fork_rec_start">Record screen</string>
+    <string name="fork_rec_stop">Stop recording</string>
+    <string name="fork_rec_started">Recording started</string>
+    <string name="fork_rec_saved">Video saved: %1$s</string>
+    <string name="fork_rec_error">Could not record: %1$s</string>
+    <string name="fork_rec_notif">Recording the screen</string>
+    <string name="fork_rec_tap_stop">Tap to stop</string>
+    <string name="fork_joy_title">Joystick dead zone</string>
+    <string name="fork_joy_value">Dead zone: %1$d</string>
+    <string name="fork_gallery_button">Gallery</string>
+    <string name="fork_gallery_banner">Use as banner</string>
+    <string name="fork_gallery_banner_done">Banner changed</string>
+    <string name="fork_home_world">Last world: %1$s</string>
+    <string name="fork_mg_settings">MobileGlues settings</string>
+    <string name="fork_mg_angle">ANGLE</string>
+    <string name="fork_mg_angle_0">Prefer disabled</string>
+    <string name="fork_mg_angle_1">Prefer enabled</string>
+    <string name="fork_mg_angle_2">Disable</string>
+    <string name="fork_mg_angle_3">Enable</string>
+    <string name="fork_mg_noerror">Shader error handling</string>
+    <string name="fork_mg_noerror_0">Auto</string>
+    <string name="fork_mg_noerror_1">Do not ignore</string>
+    <string name="fork_mg_noerror_2">Ignore shader/program errors</string>
+    <string name="fork_mg_noerror_3">Ignore shader/program/framebuffer errors</string>
+    <string name="fork_mg_compute">Compute shader extension</string>
+    <string name="fork_mg_timer">Timer query extension</string>
+    <string name="fork_mg_dsa">Direct state access extension</string>
+    <string name="fork_mg_depthfix">ANGLE depth clear fix</string>
+    <string name="fork_mg_save">Save</string>
+    <string name="fork_mg_saved">Saved: %1$s</string>
+    <string name="fork_mg_reset">Defaults</string>
+    <string name="fork_mg_dir">Folder: %1$s</string>
+    <string name="fork_quick_sec_screen">Screen</string>
+    <string name="fork_quick_sec_input">Mouse and gestures</string>
+    <string name="fork_quick_sec_gyro">Gyroscope</string>
+    <string name="fork_quick_sec_tools">Tools</string>
+    <string name="fork_quick_shot">Screenshot (F2)</string>
+    <string name="fork_ap_looks">Quick looks</string>
+    <string name="fork_ap_colors">Colors</string>
+    <string name="fork_ap_style">Style</string>
+    <string name="fork_ap_launcher">Launcher</string>
+    <string name="fork_ap_interface">Interface</string>
+    <string name="fork_ap_more">Themes and backup</string>
+    <string name="fork_ap_style_blocks">Blocks</string>
+    <string name="fork_ap_style_rounded">Rounded</string>
+    <string name="fork_ap_style_row">Button style</string>
+    <string name="fork_ap_name">Launcher name</string>
+    <string name="fork_ap_name_hint">Name shown on the banner</string>
+    <string name="fork_ap_close">Close</string>
+    <string name="fork_look_violet">Violet</string>
+    <string name="fork_look_ocean">Ocean</string>
+    <string name="fork_look_emerald">Emerald</string>
+    <string name="fork_look_ruby">Ruby</string>
+    <string name="fork_look_amber">Amber</string>
+    <string name="fork_look_teal">Teal</string>
 </resources>

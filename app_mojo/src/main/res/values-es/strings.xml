@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <!-- App name part -->
-    <string name="app_short_name">MJLauncher</string>
+    <string name="app_short_name">DivineLauncher</string>
     <!-- Action bar part -->
     <!-- Languages list part -->
     <!-- Login strings -->
@@ -13,7 +13,7 @@
     <!-- AlertDialog title -->
     <string name="alerttitle_installmod">Seleccione un instalador de modificaciones</string>
     <!-- Error messages -->
-    <string name="error_fatal">MJLauncher se ha detenido de forma inesperada</string>
+    <string name="error_fatal">DivineLauncher se ha detenido de forma inesperada</string>
     <string name="error_no_version">¡No hay versiones!</string>
     <string name="error_show_more">Mostrar más</string>
     <string name="error_show_less">Mostrar menos</string>
@@ -201,7 +201,7 @@
     <string name="pedit_java_runtime">Java Runtime</string>
     <string name="pedit_renderer">Renderizador</string>
     <string name="notif_channel_name">General</string>
-    <string name="lazy_service_default_title">Servicio de primer plano de MJLauncher</string>
+    <string name="lazy_service_default_title">Servicio de primer plano de DivineLauncher</string>
     <string name="mcl_setting_veroption_installed">Instalada</string>
     <string name="use_global_default">(Usar predeterminado global)</string>
     <string name="default_control">Controles por defecto</string>
@@ -231,7 +231,7 @@
     <string name="preference_gyro_sample_rate_title">Tasa de muestreo del giroscopio</string>
     <string name="preference_gyro_sample_rate_description">Si tienes problemas de rendimiento con el giroscopio, sube esto.</string>
     <string name="microsoft_login_retry_later">Demasiadas solicitudes, inténtalo de nuevo más tarde.</string>
-    <string name="storage_required">MJLauncher necesita que el almacenamiento externo esté conectado, por favor reconéctalo y reinicia la aplicación.</string>
+    <string name="storage_required">DivineLauncher necesita que el almacenamiento externo esté conectado, por favor reconéctalo y reinicia la aplicación.</string>
     <string name="mcl_setting_title_buttonallcaps">Usa únicamente letras mayúsculas en las etiquetas de los botones</string>
     <string name="mcl_setting_subtitle_buttonallcaps">Desactiva esta opción si quieres usar letras minúsculas en tus controles.</string>
     <string name="preference_shader_dump_title">Activar dumpeo de shaders</string>
@@ -311,7 +311,7 @@
     <string name="preference_category_miscellaneous">Ajustes varios</string>
     <string name="preference_category_video">Ajustes de video</string>
     <string name="notification_permission_dialog_title">Permiso requerido</string>
-    <string name="notification_permission_dialog_text">MJLauncher necesita un permiso para enviar notificaciones para evitar que las descargas del juego o modpacks se detengan cuando minimizes la aplicación. Sin este permiso, Android puede cancelar tus descargas cuando MJLauncher esté en segundo plano.</string>
+    <string name="notification_permission_dialog_text">DivineLauncher necesita un permiso para enviar notificaciones para evitar que las descargas del juego o modpacks se detengan cuando minimizes la aplicación. Sin este permiso, Android puede cancelar tus descargas cuando DivineLauncher esté en segundo plano.</string>
     <string name="notification_permission_toast">Siempre puedes cambiar de opinión más tarde yendo a Ajustes</string>
     <string name="preference_ask_for_notification_title">Permitir notificaciones</string>
     <string name="preference_ask_for_notification_description">Haz clic para volver a solicitar el permiso de notificaciones, necesario para qué las descargas en segundo plano del juego/modpack funcionen correctamente.</string>
@@ -353,7 +353,7 @@
     <string name="local_login_bad_username_text">El nombre de usuario debe de ser entre 3 a 16 caracteres, y solo contener letras latinas, números de 0 a 9 y guiones bajos.</string>
     <string name="quick_setting_title">Configuraciones rápidas</string>
 
-    <string name="fork_banner_title">Mi Launcher</string>
+    <string name="fork_banner_title">DivineLauncher</string>
     <string name="fork_mods_button">Mods</string>
     <string name="fork_mod_installed">Mod instalado en la instancia seleccionada</string>
     <string name="fork_mod_no_download">Este mod no permite la descarga directa</string>
@@ -705,4 +705,148 @@
         <item>Respalda tus controles y skins desde Más opciones</item>
         <item>Toca este consejo para ver otro</item>
     </string-array>
+    <string name="fork_files_button">Archivos</string>
+    <string name="fork_files_title">Archivos de la instancia</string>
+    <string name="fork_files_mods">Mods</string>
+    <string name="fork_files_config">Configuración</string>
+    <string name="fork_files_resourcepacks">Paquetes de recursos</string>
+    <string name="fork_files_shaderpacks">Shaders</string>
+    <string name="fork_files_saves">Mundos</string>
+    <string name="fork_files_screenshots">Capturas</string>
+    <string name="fork_files_logs">Registros</string>
+    <string name="fork_files_crash">Reportes de fallos</string>
+    <string name="fork_files_back">Atrás</string>
+    <string name="fork_files_all">Todo</string>
+    <string name="fork_files_delete">Borrar</string>
+    <string name="fork_files_toggle">Activar / desactivar mods marcados</string>
+    <string name="fork_files_empty">Nada aquí</string>
+    <string name="fork_files_confirm">¿Borrar %1$d elemento(s) marcado(s)? No se puede deshacer.</string>
+    <string name="fork_files_deleted">Borrados: %1$d</string>
+    <string name="fork_files_sort_size">Ordenar por tamaño</string>
+    <string name="fork_files_sort_name">Ordenar por nombre</string>
+    <string name="fork_files_backups">Copias de seguridad</string>
+    <string name="fork_files_trash">Papelera</string>
+    <string name="fork_files_confirm_trash">¿Mover %1$d elemento(s) a la papelera? Podrás restaurarlos desde Papelera.</string>
+    <string name="fork_files_moved">Movidos a la papelera: %1$d</string>
+    <string name="fork_files_backup">Copia de los mundos marcados</string>
+    <string name="fork_files_backup_done">Copias guardadas: %1$d (mira Copias de seguridad)</string>
+    <string name="fork_files_restore">Restaurar marcados</string>
+    <string name="fork_files_restored">Restaurados: %1$d</string>
+    <string name="fork_mr_title">Modrinth</string>
+    <string name="fork_mr_hint">Buscar mods…</string>
+    <string name="fork_mr_search">Buscar</string>
+    <string name="fork_mr_button">Buscar en Modrinth</string>
+    <string name="fork_mr_update">Actualizar mods</string>
+    <string name="fork_mr_working">Trabajando…</string>
+    <string name="fork_mr_installed">Instalado: %1$s</string>
+    <string name="fork_mr_none">Sin resultados para esta versión y loader</string>
+    <string name="fork_mr_updated">Mods actualizados: %1$d</string>
+    <string name="fork_op_error">Error: %1$s</string>
+    <string name="fork_menu_files">Archivos, mods y mundos</string>
+    <string name="fork_menu_duplicate">Duplicar</string>
+    <string name="fork_menu_export">Exportar como .zip</string>
+    <string name="fork_menu_tag">Poner etiqueta</string>
+    <string name="fork_dup_suffix"> (copia)</string>
+    <string name="fork_dup_done">Duplicada: %1$s</string>
+    <string name="fork_export_done">Instancia exportada</string>
+    <string name="fork_import_button">Importar</string>
+    <string name="fork_import_suffix"> (importada)</string>
+    <string name="fork_import_done">Importada: %1$s. Si usa un loader como Fabric, instala antes esa versión.</string>
+    <string name="fork_tag_title">Etiqueta</string>
+    <string name="fork_tag_0">Ninguna</string>
+    <string name="fork_tag_1">Supervivencia</string>
+    <string name="fork_tag_2">Mods</string>
+    <string name="fork_tag_3">Pruebas</string>
+    <string name="fork_tag_4">Creativo</string>
+    <string name="fork_tag_5">Servidor</string>
+    <string name="fork_stats_never">Aún sin jugar</string>
+    <string name="fork_stats_played">Jugado %1$s</string>
+    <string name="fork_stats_last">última vez %1$s</string>
+    <string name="fork_quick_hide">Ocultar controles (F1)</string>
+    <string name="fork_fps_minmax">&#160;(mín %1$d · máx %2$d)</string>
+    <string name="fork_quick_mirror">Modo zurdo (espejar controles)</string>
+    <string name="fork_lang_title">Idioma</string>
+    <string name="fork_lang_system">Idioma del sistema</string>
+    <string name="fork_fullscreen">Interfaz a pantalla completa</string>
+    <string name="fork_on">SÍ</string>
+    <string name="fork_off">NO</string>
+    <string name="fork_home_continue">Continuar jugando</string>
+    <string name="fork_home_files">Archivos</string>
+    <string name="fork_home_logs">Registro</string>
+    <string name="fork_home_edit">Editar</string>
+    <string name="fork_home_no_instance">Ninguna instancia seleccionada</string>
+    <string name="fork_mg_title">Plugin MobileGlues</string>
+    <string name="fork_mg_summary">Importa la librería del plugin MobileGlues instalado o abre sus ajustes</string>
+    <string name="fork_mg_import">Importar librería del plugin</string>
+    <string name="fork_mg_open">Abrir ajustes del plugin</string>
+    <string name="fork_mg_missing">La app del plugin MobileGlues no está instalada</string>
+    <string name="fork_mg_done">MobileGlues importado. Elígelo en Renderizador.</string>
+    <string name="fork_mg_nolib">El plugin no trae librería para este dispositivo</string>
+    <string name="fork_pad_title">Mando</string>
+    <string name="fork_pad_detected">Mando detectado: %1$s (distribución %2$s)</string>
+    <string name="fork_pad_none">Aún no se ha visto ningún mando. Conecta uno y mueve un stick.</string>
+    <string name="fork_pad_swap_off">No intercambiar botones</string>
+    <string name="fork_pad_swap_on">Intercambiar A↔B y X↔Y</string>
+    <string name="fork_pad_swap_auto">Intercambiar solo en distribución Nintendo</string>
+    <string name="fork_pad_xbox">Xbox</string>
+    <string name="fork_pad_ps">PlayStation</string>
+    <string name="fork_pad_nintendo">Nintendo</string>
+    <string name="fork_pad_steam">Steam</string>
+    <string name="fork_pad_stadia">Stadia</string>
+    <string name="fork_pad_generic">Genérico</string>
+    <string name="fork_rec_start">Grabar pantalla</string>
+    <string name="fork_rec_stop">Detener grabación</string>
+    <string name="fork_rec_started">Grabación iniciada</string>
+    <string name="fork_rec_saved">Video guardado: %1$s</string>
+    <string name="fork_rec_error">No se pudo grabar: %1$s</string>
+    <string name="fork_rec_notif">Grabando la pantalla</string>
+    <string name="fork_rec_tap_stop">Toca para detener</string>
+    <string name="fork_joy_title">Zona muerta del joystick</string>
+    <string name="fork_joy_value">Zona muerta: %1$d</string>
+    <string name="fork_gallery_button">Galería</string>
+    <string name="fork_gallery_banner">Usar como banner</string>
+    <string name="fork_gallery_banner_done">Banner cambiado</string>
+    <string name="fork_home_world">Último mundo: %1$s</string>
+    <string name="fork_mg_settings">Ajustes de MobileGlues</string>
+    <string name="fork_mg_angle">ANGLE</string>
+    <string name="fork_mg_angle_0">Preferir desactivado</string>
+    <string name="fork_mg_angle_1">Preferir activado</string>
+    <string name="fork_mg_angle_2">Desactivar</string>
+    <string name="fork_mg_angle_3">Activar</string>
+    <string name="fork_mg_noerror">Manejo de errores de shaders</string>
+    <string name="fork_mg_noerror_0">Automático</string>
+    <string name="fork_mg_noerror_1">No ignorar</string>
+    <string name="fork_mg_noerror_2">Ignorar errores de shader/programa</string>
+    <string name="fork_mg_noerror_3">Ignorar errores de shader/programa/framebuffer</string>
+    <string name="fork_mg_compute">Extensión de compute shader</string>
+    <string name="fork_mg_timer">Extensión de timer query</string>
+    <string name="fork_mg_dsa">Extensión de direct state access</string>
+    <string name="fork_mg_depthfix">Arreglo de depth clear de ANGLE</string>
+    <string name="fork_mg_save">Guardar</string>
+    <string name="fork_mg_saved">Guardado: %1$s</string>
+    <string name="fork_mg_reset">Valores por defecto</string>
+    <string name="fork_mg_dir">Carpeta: %1$s</string>
+    <string name="fork_quick_sec_screen">Pantalla</string>
+    <string name="fork_quick_sec_input">Ratón y gestos</string>
+    <string name="fork_quick_sec_gyro">Giroscopio</string>
+    <string name="fork_quick_sec_tools">Herramientas</string>
+    <string name="fork_quick_shot">Captura (F2)</string>
+    <string name="fork_ap_looks">Estilos rápidos</string>
+    <string name="fork_ap_colors">Colores</string>
+    <string name="fork_ap_style">Forma</string>
+    <string name="fork_ap_launcher">Launcher</string>
+    <string name="fork_ap_interface">Interfaz</string>
+    <string name="fork_ap_more">Temas y copia de seguridad</string>
+    <string name="fork_ap_style_blocks">Bloques</string>
+    <string name="fork_ap_style_rounded">Redondeados</string>
+    <string name="fork_ap_style_row">Estilo de botones</string>
+    <string name="fork_ap_name">Nombre del launcher</string>
+    <string name="fork_ap_name_hint">Nombre que sale en el banner</string>
+    <string name="fork_ap_close">Cerrar</string>
+    <string name="fork_look_violet">Violeta</string>
+    <string name="fork_look_ocean">Océano</string>
+    <string name="fork_look_emerald">Esmeralda</string>
+    <string name="fork_look_ruby">Rubí</string>
+    <string name="fork_look_amber">Ámbar</string>
+    <string name="fork_look_teal">Turquesa</string>
 </resources>

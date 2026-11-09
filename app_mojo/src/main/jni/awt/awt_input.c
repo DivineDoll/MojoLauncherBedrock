@@ -38,14 +38,14 @@ static void invokeReceiveInput(jint type, jint i1, jint i2, jint i3, jint i4) {
 
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeSendCursorPos(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeSendCursorPos(JNIEnv *env,
                                                                               jclass clazz, jint x,
                                                                               jint y) {
     invokeReceiveInput(EVENT_TYPE_CURSOR_POS, (jint)((float) x * inputXRatio), (jint) ((float) y * inputYRatio), 0, 0);
 }
 
 JNIEXPORT jboolean JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeSendKeyEvent(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeSendKeyEvent(JNIEnv *env,
                                                                              jclass clazz,
                                                                              jint keycode,
                                                                              jint state, jint mods,
@@ -57,7 +57,7 @@ Java_git_artdeell_mojo_awt_AWTBridge_nativeSendKeyEvent(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeSendMouseEvent(JNIEnv *env,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeSendMouseEvent(JNIEnv *env,
                                                                                jclass clazz,
                                                                                jint button,
                                                                                jint state,
@@ -68,7 +68,7 @@ Java_git_artdeell_mojo_awt_AWTBridge_nativeSendMouseEvent(JNIEnv *env,
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_awt_AWTBridge_nativeTypeChars(JNIEnv *env, jclass clazz,
+Java_com_divinedoll_launcher_awt_AWTBridge_nativeTypeChars(JNIEnv *env, jclass clazz,
                                                                           jstring chars) {
     jsize len = (*env)->GetStringLength(env, chars);
     const jchar* nchars = (*env)->GetStringChars(env, chars, NULL);

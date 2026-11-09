@@ -13,7 +13,7 @@ Qué incluye este fork de Terracotta:
 - `app_mojo/src/main/java/net/burningtnt/terracotta/TerracottaAndroidAPI.java`: API Java sin modificar.
 - `app_mojo/src/main/jniLibs/*/libterracotta.so`: librería nativa de Terracotta para Android.
   Su código fuente está en https://github.com/burningtnt/Terracotta.
-- `app_mojo/src/main/java/git/artdeell/mojo/lan/`: código propio de este fork que usa Terracotta.
+- `app_mojo/src/main/java/com/divinedoll/launcher/lan/`: código propio de este fork que usa Terracotta.
   El servicio VPN se adaptó del de Zalith Launcher 2 (GPL-3.0,
   https://github.com/ZalithLauncher/ZalithLauncher2), que a su vez se basa en FoldCraftLauncher.
 

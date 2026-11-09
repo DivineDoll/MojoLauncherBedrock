@@ -53,7 +53,7 @@ static bool init_hooks() {
 }
 
 JNIEXPORT void JNICALL
-Java_git_artdeell_mojo_utils_JREUtils_initializeHooks(JNIEnv *env, jclass clazz) {
+Java_com_divinedoll_launcher_utils_JREUtils_initializeHooks(JNIEnv *env, jclass clazz) {
     bool hooks_ready = init_hooks();
     if(!hooks_ready) {
         LOGE("Failed to initialize native hooks!");

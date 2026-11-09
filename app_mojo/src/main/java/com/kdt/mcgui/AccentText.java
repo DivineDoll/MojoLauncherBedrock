@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import git.artdeell.mojo.utils.AccentColor;
+import com.divinedoll.launcher.utils.AccentColor;
 
 /** Text drawn with a light shade of the accent color chosen in Appearance. */
 public class AccentText extends AppCompatTextView {

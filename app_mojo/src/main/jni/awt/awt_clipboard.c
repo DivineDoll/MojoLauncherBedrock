@@ -16,7 +16,7 @@ void register_methods_clipboard(JNIEnv* env) {
     method_putClipboardString = (*env)->GetStaticMethodID(env, class_AWTBridge, "putClipboardString", "(Ljava/lang/String;)V");
 }
 
-JNIEXPORT void JNICALL Java_git_artdeell_mojo_awt_AWTBridge_nativeClipboardReceived(JNIEnv *env, jclass clazz, jstring clipboardData, jstring clipboardDataMime) {
+JNIEXPORT void JNICALL Java_com_divinedoll_launcher_awt_AWTBridge_nativeClipboardReceived(JNIEnv *env, jclass clazz, jstring clipboardData, jstring clipboardDataMime) {
     if(method_SystemClipboardDataReceived == NULL || class_CTCClipboard == NULL) return;
     if (JNIEnv_InputRuntime == NULL) {
         if (runtimeVM == NULL) {

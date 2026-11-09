@@ -1,273 +1,380 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/edit_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingHorizontal="@dimen/padding_moderate"
-    android:paddingVertical="@dimen/padding_moderate"
-    app:layout_optimizationLevel="standard|dimensions|chains">
+    android:paddingVertical="@dimen/padding_moderate">
 
-    <!-- Resolution settings -->
-    <TextView
-        android:id="@+id/editResolution_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:text="@string/mcl_setting_title_resolution_scaler"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.kdt.CustomSeekbar
-        android:id="@+id/editResolution_seekbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-        android:min="@integer/resolution_seekbar_min"
-        app:seekBarIncrement="@integer/resolution_seekbar_increment"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editResolution_textView" />
-
-    <TextView
-        android:id="@+id/editResolution_textView_percent"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        tools:text="50%"
-
-        app:layout_constraintBottom_toBottomOf="@id/editResolution_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/editResolution_textView" />
-
-    <!-- Gyroscope settings -->
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxGyro"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/preference_enable_gyro_title"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editResolution_seekbar"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxGyroX"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/preference_gyro_invert_x_axis"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxGyro"/>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxGyroY"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/preference_gyro_invert_y_axis"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxGyroX"/>
-
-    <!-- Gyroscope sensitivity -->
-    <TextView
-        android:id="@+id/editGyro_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:text="@string/preference_gyro_sensitivity_title"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxGyroY" />
-
-    <com.kdt.CustomSeekbar
-        android:id="@+id/editGyro_seekbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-
-        android:min="@integer/gyro_speed_seekbar_min"
-        android:max="@integer/gyro_speed_seekbar_max"
-        app:seekBarIncrement="@integer/gyro_speed_seekbar_increment"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGyro_textView" />
-
-    <TextView
-        android:id="@+id/editGyro_textView_percent"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        tools:text="100%"
-
-        app:layout_constraintBottom_toBottomOf="@id/editGyro_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/editGyro_textView" />
-
-
-    <!-- Mouse settings -->
-    <TextView
-        android:id="@+id/editMouseSpeed_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:text="@string/mcl_setting_title_mousespeed"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editGyro_seekbar" />
-
-    <com.kdt.CustomSeekbar
-        android:id="@+id/editMouseSpeed_seekbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-
-        android:min="@integer/mouse_speed_seekbar_min"
-        android:max="@integer/mouse_speed_seekbar_max"
-        app:seekBarIncrement="@integer/mouse_speed_seekbar_increment"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editMouseSpeed_textView" />
-
-    <TextView
-        android:id="@+id/editMouseSpeed_textView_percent"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        tools:text="100%"
-
-        app:layout_constraintBottom_toBottomOf="@id/editMouseSpeed_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/editMouseSpeed_textView" />
-
-    <!-- Gesture toggle -->
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxGesture"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/mcl_disable_gestures"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editMouseSpeed_seekbar"/>
-
-    <!-- gesture settings -->
-    <TextView
-        android:id="@+id/editGestureDelay_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:text="@string/mcl_setting_title_longpresstrigger"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxGesture" />
-
-    <com.kdt.CustomSeekbar
-        android:id="@+id/editGestureDelay_seekbar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-
-        android:min="@integer/gesture_delay_seekbar_min"
-        android:max="@integer/gesture_delay_seekbar_max"
-        app:seekBarIncrement="@integer/gesture_delay_seekbar_increment"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editGestureDelay_textView" />
-
-    <TextView
-        android:id="@+id/editGestureDelay_textView_percent"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        tools:text="270 ms"
-
-        app:layout_constraintBottom_toBottomOf="@id/editGestureDelay_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/editGestureDelay_textView" />
-
-    <!-- button transparency seekbar -->
-    <TextView
-        android:id="@+id/buttonTransparency_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:gravity="center"
-        android:paddingEnd="5dp"
-        android:text="@string/preference_button_transparency"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editGestureDelay_seekbar" />
-
-    <com.kdt.CustomSeekbar
-        android:id="@+id/buttonTransparency_seekBar"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/_36sdp"
-
-        android:min="0"
-        android:max="100"
-        app:seekBarIncrement="5"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonTransparency_textView" />
-
-    <TextView
-        android:id="@+id/quickDisplay_title"
+    <LinearLayout
+        android:id="@+id/quickCard1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:text="@string/fork_quick_display"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonTransparency_seekBar" />
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxQuickFps"
+        <TextView
+            android:id="@+id/quickTitle1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fork_quick_sec_screen"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/editResolution_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mcl_setting_title_resolution_scaler" />
+
+            <TextView
+                android:id="@+id/editResolution_textView_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                tools:text="50%" />
+        </LinearLayout>
+
+        <com.kdt.CustomSeekbar
+            android:id="@+id/editResolution_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:min="@integer/resolution_seekbar_min"
+            app:seekBarIncrement="@integer/resolution_seekbar_increment"
+/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/buttonTransparency_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/preference_button_transparency" />
+
+            <TextView
+                android:id="@+id/buttonTransparency_textView_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                tools:text="100%" />
+        </LinearLayout>
+
+        <com.kdt.CustomSeekbar
+            android:id="@+id/buttonTransparency_seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:min="0"
+            android:max="100"
+            app:seekBarIncrement="5"
+/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quickCard2"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/fork_quick_fps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/quickDisplay_title" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxQuickMemory"
+        <TextView
+            android:id="@+id/quickTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fork_quick_sec_input"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/editMouseSpeed_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mcl_setting_title_mousespeed" />
+
+            <TextView
+                android:id="@+id/editMouseSpeed_textView_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                tools:text="100%" />
+        </LinearLayout>
+
+        <com.kdt.CustomSeekbar
+            android:id="@+id/editMouseSpeed_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:min="@integer/mouse_speed_seekbar_min"
+            android:max="@integer/mouse_speed_seekbar_max"
+            app:seekBarIncrement="@integer/mouse_speed_seekbar_increment"
+/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxGesture"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/mcl_disable_gestures" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/editGestureDelay_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/mcl_setting_title_longpresstrigger" />
+
+            <TextView
+                android:id="@+id/editGestureDelay_textView_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                tools:text="270 ms" />
+        </LinearLayout>
+
+        <com.kdt.CustomSeekbar
+            android:id="@+id/editGestureDelay_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:min="@integer/gesture_delay_seekbar_min"
+            android:max="@integer/gesture_delay_seekbar_max"
+            app:seekBarIncrement="@integer/gesture_delay_seekbar_increment"
+/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quickCard3"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/fork_quick_memory"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxQuickFps" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/checkboxQuickBattery"
+        <TextView
+            android:id="@+id/quickTitle3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fork_quick_sec_gyro"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxGyro"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/preference_enable_gyro_title" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxGyroX"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/preference_gyro_invert_x_axis" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxGyroY"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/preference_gyro_invert_y_axis" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/editGyro_textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/preference_gyro_sensitivity_title" />
+
+            <TextView
+                android:id="@+id/editGyro_textView_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textStyle="bold"
+                tools:text="100%" />
+        </LinearLayout>
+
+        <com.kdt.CustomSeekbar
+            android:id="@+id/editGyro_seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_32sdp"
+            android:min="@integer/gyro_speed_seekbar_min"
+            android:max="@integer/gyro_speed_seekbar_max"
+            app:seekBarIncrement="@integer/gyro_speed_seekbar_increment"
+/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quickCard4"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_36sdp"
-        android:text="@string/fork_quick_battery"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/checkboxQuickMemory" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
 
-    <TextView
-        android:id="@+id/buttonTransparency_textView_percent"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:gravity="end"
-        tools:text="%"
+        <TextView
+            android:id="@+id/quickTitle4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fork_quick_display"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
 
-        app:layout_constraintBottom_toBottomOf="@id/buttonTransparency_textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/buttonTransparency_textView" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxQuickFps"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/fork_quick_fps" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxQuickMemory"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/fork_quick_memory" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/checkboxQuickBattery"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_34sdp"
+            android:text="@string/fork_quick_battery" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quickCard5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:orientation="vertical"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/quickTitle5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fork_quick_sec_tools"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonQuickHideControls"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_quick_hide" />
+
+            <Button
+                android:id="@+id/buttonQuickMirror"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_quick_mirror" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonQuickRecord"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_rec_start" />
+
+            <Button
+                android:id="@+id/buttonQuickJoystick"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_joy_title" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonQuickGamepad"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_pad_title" />
+
+            <Button
+                android:id="@+id/buttonQuickShot"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_3sdp"
+                android:layout_weight="1"
+                android:minHeight="@dimen/_34sdp"
+                android:text="@string/fork_quick_shot" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -14,11 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import git.artdeell.mojo.R;
+import com.divinedoll.launcher.R;
 
-import git.artdeell.mojo.progresskeeper.ProgressKeeper;
-import git.artdeell.mojo.progresskeeper.ProgressListener;
-import git.artdeell.mojo.progresskeeper.TaskCountListener;
+import com.divinedoll.launcher.progresskeeper.ProgressKeeper;
+import com.divinedoll.launcher.progresskeeper.ProgressListener;
+import com.divinedoll.launcher.progresskeeper.TaskCountListener;
 
 import java.util.ArrayList;
 

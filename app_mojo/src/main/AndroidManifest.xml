@@ -23,6 +23,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
 
     <application
@@ -37,7 +38,7 @@
         android:process=":launcher"
         android:resizeableActivity="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:theme="@style/MojoLauncher.AppTheme"
+        android:theme="@style/DivineLauncher.AppTheme"
         android:networkSecurityConfig="@xml/netconfig"
         android:enableOnBackInvokedCallback="false"
         tools:ignore="UnusedAttribute">
@@ -140,6 +141,9 @@
             </intent-filter>
         </provider>
 
+        <service android:name=".services.RecorderService" android:process=":game"
+            android:exported="false" android:foregroundServiceType="mediaProjection"/>
+
         <service android:name=".services.ProgressService"
             android:foregroundServiceType="dataSync"/>
         <service android:name=".services.GameService" android:process=":game"
@@ -160,12 +164,13 @@
     </application>
     <queries>
         <package android:name="git.mojo.ffmpeg"/>
+        <package android:name="com.fcl.plugin.mobileglues"/>
         <package android:name="git.mojo.angle"/>
         <package android:name="git.mojo.zink"/>
         <package android:name="git.mojo.mesa"/>
-        <package android:name="git.artdeell.mojo"/>
-        <package android:name="git.artdeell.mojo.debug"/>
-        <package android:name="git.artdeell.mojo.pub"/>
+        <package android:name="com.divinedoll.launcher"/>
+        <package android:name="com.divinedoll.launcher.debug"/>
+        <package android:name="com.divinedoll.launcher.pub"/>
         <package android:name="com.mojang.minecraftpe"/>
     </queries>
 </manifest>

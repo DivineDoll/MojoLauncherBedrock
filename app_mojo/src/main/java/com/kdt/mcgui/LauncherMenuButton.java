@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 
 
-import git.artdeell.mojo.R;
+import com.divinedoll.launcher.R;
 
 import fr.spse.extended_view.ExtendedButton;
 
@@ -38,7 +38,7 @@ public class LauncherMenuButton extends ExtendedButton {
         setCompoundDrawablePadding(padding);
         setPaddingRelative(padding, 0, 0, 0);
         setGravity(Gravity.CENTER_VERTICAL);
-        setTypeface(git.artdeell.mojo.utils.McStyle.font(getContext()));
+        setTypeface(com.divinedoll.launcher.utils.McStyle.font(getContext()));
 
         setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimensionPixelSize(R.dimen._12ssp));
 
@@ -51,7 +51,7 @@ public class LauncherMenuButton extends ExtendedButton {
 
     @Override
     public boolean performClick() {
-        git.artdeell.mojo.utils.ClickSound.play();
+        com.divinedoll.launcher.utils.ClickSound.play();
         return super.performClick();
     }
 }

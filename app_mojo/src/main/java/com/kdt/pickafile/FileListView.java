@@ -11,7 +11,7 @@ import java.util.*;
 
 import android.os.*;
 
-import git.artdeell.mojo.Tools;
+import com.divinedoll.launcher.Tools;
 
 public class FileListView extends LinearLayout
 {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Light or not? -->
-    <style name="MojoLauncher" parent="@style/Theme.AppCompat.NoActionBar">
+    <style name="DivineLauncher" parent="@style/Theme.AppCompat.NoActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -12,37 +12,37 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.Bedrock</item>
         <item name="android:textSize">@dimen/_12ssp</item>
         <item name="dialogCornerRadius">0dp</item>
-        <item name="android:seekBarStyle">@style/MojoLauncher.SeekBar</item>
-        <item name="seekBarStyle">@style/MojoLauncher.SeekBar</item>
-        <item name="android:switchStyle">@style/MojoLauncher.Switch</item>
-        <item name="switchStyle">@style/MojoLauncher.Switch</item>
-        <item name="buttonStyle">@style/MojoLauncher.Button</item>
-        <item name="editTextStyle">@style/MojoLauncher.EditText</item>
-        <item name="android:editTextStyle">@style/MojoLauncher.EditText</item>
-        <item name="android:buttonStyleToggle">@style/MojoLauncher.Button.Toggle</item>
-        <item name="alertDialogTheme">@style/MojoLauncher.AlertDialog</item>
+        <item name="android:seekBarStyle">@style/DivineLauncher.SeekBar</item>
+        <item name="seekBarStyle">@style/DivineLauncher.SeekBar</item>
+        <item name="android:switchStyle">@style/DivineLauncher.Switch</item>
+        <item name="switchStyle">@style/DivineLauncher.Switch</item>
+        <item name="buttonStyle">@style/DivineLauncher.Button</item>
+        <item name="editTextStyle">@style/DivineLauncher.EditText</item>
+        <item name="android:editTextStyle">@style/DivineLauncher.EditText</item>
+        <item name="android:buttonStyleToggle">@style/DivineLauncher.Button.Toggle</item>
+        <item name="alertDialogTheme">@style/DivineLauncher.AlertDialog</item>
     </style>
 
-    <style name="MojoLauncher.AppTheme" parent="MojoLauncher"/>
+    <style name="DivineLauncher.AppTheme" parent="DivineLauncher"/>
 
-    <style name="MojoLauncher.AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="DivineLauncher.AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@drawable/dialog_panel</item>
         <item name="dialogCornerRadius">0dp</item>
         <item name="colorAccent">@color/primary_text</item>
         <item name="colorControlActivated">@color/primary_text</item>
-        <item name="buttonBarButtonStyle">@style/MojoLauncher.DialogButton</item>
-        <item name="alertDialogStyle">@style/MojoLauncher.AlertDialogStyle</item>
-        <item name="editTextStyle">@style/MojoLauncher.EditText</item>
-        <item name="android:editTextStyle">@style/MojoLauncher.EditText</item>
+        <item name="buttonBarButtonStyle">@style/DivineLauncher.DialogButton</item>
+        <item name="alertDialogStyle">@style/DivineLauncher.AlertDialogStyle</item>
+        <item name="editTextStyle">@style/DivineLauncher.EditText</item>
+        <item name="android:editTextStyle">@style/DivineLauncher.EditText</item>
     </style>
 
-    <style name="MojoLauncher.AlertDialogStyle" parent="AlertDialog.AppCompat">
+    <style name="DivineLauncher.AlertDialogStyle" parent="AlertDialog.AppCompat">
         <item name="listItemLayout">@layout/mojo_select_dialog_item</item>
         <item name="singleChoiceItemLayout">@layout/mojo_select_dialog_singlechoice</item>
         <item name="multiChoiceItemLayout">@layout/mojo_select_dialog_multichoice</item>
     </style>
 
-    <style name="MojoLauncher.DialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+    <style name="DivineLauncher.DialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:fontFamily">@font/minecraft_ten</item>
         <item name="fontFamily">@font/minecraft_ten</item>
         <item name="android:textColor">@color/primary_text</item>
@@ -53,12 +53,12 @@
         <item name="fontFamily">@font/minecraft_ten</item>
     </style>
 
-    <style name="MojoLauncher.EditText" parent="Widget.AppCompat.EditText">
+    <style name="DivineLauncher.EditText" parent="Widget.AppCompat.EditText">
         <item name="fontFamily">@font/minecraft_regular</item>
         <item name="android:fontFamily">@font/minecraft_regular</item>
     </style>
 
-    <style name="MojoLauncher.SeekBar" parent="Widget.AppCompat.SeekBar">
+    <style name="DivineLauncher.SeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressDrawable">@drawable/minepb_progress</item>
         <item name="android:thumb">@drawable/mineknob_on_unfiltered</item>
         <item name="android:thumbOffset">0dp</item>
@@ -66,7 +66,7 @@
         <item name="android:minHeight">4dp</item>
     </style>
 
-    <style name="MojoLauncher.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+    <style name="DivineLauncher.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="track">@drawable/mineknob_track_mask_unfiltered</item>
         <item name="trackTint">@color/mineknob_track_tint</item>
         <item name="trackTintMode">multiply</item>
@@ -74,11 +74,11 @@
         <item name="switchMinWidth">40dp</item>
     </style>
 
-    <style name="MojoLauncher.Button" parent="Widget.AppCompat.Button">
+    <style name="DivineLauncher.Button" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_flat</item>
     </style>
 
-    <style name="MojoLauncher.Button.Toggle" parent="MojoLauncher.Button">
+    <style name="DivineLauncher.Button.Toggle" parent="DivineLauncher.Button">
         <item name="android:background">@drawable/button_flat_toggle</item>
     </style>
 

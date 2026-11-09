@@ -22,7 +22,7 @@ import android.widget.*;
 import java.io.*;
 import java.util.*;
 
-import git.artdeell.mojo.R;
+import com.divinedoll.launcher.R;
 
 /**
  * List adapter for Files.

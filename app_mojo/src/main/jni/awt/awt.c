@@ -29,7 +29,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
         JNIEnv *env = NULL;
         (*vm)->GetEnv(vm, (void**)&env, JNI_VERSION_1_4);
 
-        class_AWTBridge = (*env)->NewGlobalRef(env, (*env)->FindClass(env, "git/artdeell/mojo/awt/AWTBridge"));
+        class_AWTBridge = (*env)->NewGlobalRef(env, (*env)->FindClass(env, "com/divinedoll/launcher/awt/AWTBridge"));
 
         register_methods_util(env);
         register_methods_clipboard(env);

@@ -1,0 +1,860 @@
+package com.divinedoll.launcher.input.handleview;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.SwitchCompat;
+
+import com.kdt.SideDialogView;
+
+import com.divinedoll.launcher.CustomControlsActivity;
+import com.divinedoll.launcher.utils.KeycodeUtils;
+import com.divinedoll.launcher.R;
+import com.divinedoll.launcher.Tools;
+import com.divinedoll.launcher.colorselector.ColorSelector;
+import com.divinedoll.launcher.input.ControlData;
+import com.divinedoll.launcher.input.ControlDrawerData;
+import com.divinedoll.launcher.input.ControlJoystickData;
+import com.divinedoll.launcher.input.ControlLayout;
+import com.divinedoll.launcher.input.LayoutBitmaps;
+import com.divinedoll.launcher.input.buttons.ControlDrawer;
+import com.divinedoll.launcher.input.buttons.ControlInterface;
+import com.divinedoll.launcher.input.buttons.ControlSubButton;
+import com.divinedoll.launcher.utils.CropperUtils;
+import com.divinedoll.launcher.utils.interfaces.SimpleItemSelectedListener;
+import com.divinedoll.launcher.utils.interfaces.SimpleSeekBarListener;
+import com.divinedoll.launcher.utils.interfaces.SimpleTextWatcher;
+
+import java.util.List;
+
+public class EditControlSideDialog extends SideDialogView {
+
+    private final Spinner[] mKeycodeSpinners = new Spinner[4];
+    public boolean internalChanges = false; // True when we programmatically change stuff.
+    private final View.OnLayoutChangeListener mLayoutChangedListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            if (internalChanges) return;
+
+            internalChanges = true;
+            int width = (int) (safeParseFloat(mWidthEditText.getText().toString()));
+
+            if (width >= 0 && Math.abs(right - width) > 1) {
+                mWidthEditText.setText(String.valueOf(right - left));
+            }
+            int height = (int) (safeParseFloat(mHeightEditText.getText().toString()));
+            if (height >= 0 && Math.abs(bottom - height) > 1) {
+                mHeightEditText.setText(String.valueOf(bottom - top));
+            }
+
+            internalChanges = false;
+        }
+    };
+    private EditText mNameEditText, mWidthEditText, mHeightEditText;
+    private SwitchCompat mToggleSwitch, mPassthroughSwitch, mSwipeableSwitch, mForwardLockSwitch, mAbsoluteTrackingSwitch, mLockStickCenterSwitch;
+    private SeekBar mStickSizeSeekbar;
+    private TextView mStickSizeLabel;
+    private Spinner mOrientationSpinner;
+    private final TextView[] mKeycodeTextviews = new TextView[4];
+    private SeekBar mStrokeWidthSeekbar, mCornerRadiusSeekbar, mAlphaSeekbar;
+    private TextView mStrokePercentTextView, mCornerRadiusPercentTextView, mAlphaPercentTextView;
+    private TextView mSelectBackgroundBitmap, mSelectBackgroundColor, mSelectStrokeColor;
+    private TextView mSelectStickBitmap;
+    private ArrayAdapter<String> mAdapter;
+    private List<String> mSpecialArray;
+    private CheckBox mDisplayInGameCheckbox, mDisplayInMenuCheckbox;
+    private ControlInterface mCurrentlyEditedButton;
+    // Decorative textviews
+    private TextView mOrientationTextView, mMappingTextView, mNameTextView,
+            mCornerRadiusTextView, mVisibilityTextView, mSizeTextview,
+            mSizeXTextView, mStrokeWidthTextView, mColorSelectWarningTextView;
+
+    // Text and effects section
+    private View mStyleGroup, mActionGroup;
+    private EditText mCommandEditText;
+    private SwitchCompat mSequenceSwitch;
+    private EditText mSequenceDelayEditText;
+    private TextView mSelectTextColor, mSelectPressedColor, mSelectImageTint, mTextSizeValue;
+    private TextView mResetStyle, mApplyStyleToAll, mSelectPixelArt, mSelectIcon, mRemoveIcon;
+    private ControlPreviewView mPreview;
+    private SeekBar mTextSizeSeekbar;
+
+    // Color selector related stuff
+    private ColorSelector mColorSelector;
+    private final ViewGroup mParent;
+
+    public EditControlSideDialog(Context context, ViewGroup parent) {
+        super(context, parent, R.layout.dialog_control_button_setting);
+        mParent = parent;
+    }
+
+    @Override
+    protected void onInflate() {
+        bindLayout();
+        if (mPreview != null && mCurrentlyEditedButton != null) mPreview.setTarget(mCurrentlyEditedButton);
+        buildColorSelector();
+        loadAdapter();
+        setupRealTimeListeners();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mColorSelector.disappear(true);
+    }
+
+    private void buildColorSelector() {
+        mColorSelector = new ColorSelector(mParent.getContext(), mParent, null);
+    }
+
+    /**
+     * Slide the layout into the visible screen area
+     */
+    public void appearColor(boolean fromRight, int color) {
+        mColorSelector.show(fromRight, color == -1 ? Color.WHITE : color);
+    }
+
+    /**
+     * Slide out the layout
+     */
+    public void disappearColor() {
+        mColorSelector.disappear(false);
+    }
+
+    /**
+     * Slide out the first visible layer.
+     *
+     * @return True if the last layer is disappearing
+     */
+    public boolean disappearLayer() {
+        if (mColorSelector.isDisplaying()) {
+            disappearColor();
+            return false;
+        } else {
+            disappear(false);
+            return true;
+        }
+    }
+
+    /**
+     * Switch the panels position if needed
+     */
+    public void adaptPanelPosition() {
+        if(!mDisplaying) return;
+        if(mCurrentlyEditedButton == null) return;
+        ControlLayout parent = mCurrentlyEditedButton.getControlLayoutParent();
+        if(parent == null) return;
+
+        boolean isAtRight = mCurrentlyEditedButton.getControlView().getX() + mCurrentlyEditedButton.getControlView().getWidth() / 2f < mCurrentlyEditedButton.getControlLayoutParent().getWidth() / 2f;
+        appear(isAtRight);
+        if (mColorSelector.isDisplaying()) {
+            Tools.runOnUiThread(() -> appearColor(isAtRight, mCurrentlyEditedButton.getProperties().bgColor));
+        }
+    }
+
+    public static void setPercentageText(TextView textView, int progress) {
+        textView.setText(textView.getContext().getString(R.string.percent_format, progress));
+    }
+
+    /* LOADING VALUES */
+
+    /**
+     * Load values for basic control data
+     */
+    public void loadValues(ControlData data) {
+        setDefaultVisibilitySetting();
+        mSelectStickBitmap.setVisibility(GONE);
+        mOrientationTextView.setVisibility(GONE);
+        mOrientationSpinner.setVisibility(GONE);
+        mForwardLockSwitch.setVisibility(GONE);
+        mAbsoluteTrackingSwitch.setVisibility(GONE);
+        mLockStickCenterSwitch.setVisibility(GONE);
+        mStickSizeSeekbar.setVisibility(GONE);
+        mStickSizeLabel.setVisibility(GONE);
+
+        mNameEditText.setText(data.name);
+        mWidthEditText.setText(String.valueOf(data.getWidth()));
+        mHeightEditText.setText(String.valueOf(data.getHeight()));
+
+        mAlphaSeekbar.setProgress((int) (data.opacity * 100));
+        mTextSizeSeekbar.setProgress(Math.round(data.textSize));
+        updateTextSizeLabel(Math.round(data.textSize));
+        mStrokeWidthSeekbar.setProgress((int) data.strokeWidth * 10);
+        mCornerRadiusSeekbar.setProgress((int) data.cornerRadius);
+
+        setPercentageText(mAlphaPercentTextView, (int) (data.opacity * 100));
+        setPercentageText(mStrokePercentTextView, (int) data.strokeWidth * 10);
+        setPercentageText(mCornerRadiusPercentTextView, (int) data.cornerRadius);
+
+        mActionGroup.setVisibility(VISIBLE);
+        mCommandEditText.setText(data.commandText == null ? "" : data.commandText);
+        mSequenceSwitch.setChecked(data.sequence);
+        mSequenceDelayEditText.setText(data.sequenceDelay > 0 ? String.valueOf(data.sequenceDelay) : "");
+        mSequenceDelayEditText.setVisibility(data.sequence ? View.VISIBLE : View.GONE);
+        mToggleSwitch.setChecked(data.isToggle);
+        mPassthroughSwitch.setChecked(data.passThruEnabled);
+        mSwipeableSwitch.setChecked(data.isSwipeable);
+
+        mDisplayInGameCheckbox.setChecked(data.displayInGame);
+        mDisplayInMenuCheckbox.setChecked(data.displayInMenu);
+
+        for (int i = 0; i < data.keycodes.length; i++) {
+            if (data.keycodes[i] < 0) {
+                mKeycodeSpinners[i].setSelection(data.keycodes[i] + mSpecialArray.size());
+            } else {
+                mKeycodeSpinners[i].setSelection(KeycodeUtils.getIndexByValue(data.keycodes[i]) + mSpecialArray.size());
+            }
+        }
+
+        setHasBitmap(Tools.isValidString(data.bitmapTag));
+
+        Context viewContext = mCurrentlyEditedButton.getControlView().getContext();
+
+        // Don't allow editing the bitmap in-game (i don't want to bother with implementing that,
+        // and it has potential to kill the game during icon selection)
+        if(!(viewContext instanceof CustomControlsActivity)) {
+            mSelectBackgroundBitmap.setVisibility(GONE);
+            mSelectPixelArt.setVisibility(GONE);
+            mSelectIcon.setVisibility(GONE);
+            mRemoveIcon.setVisibility(GONE);
+        } else {
+            mSelectPixelArt.setVisibility(VISIBLE);
+            mSelectIcon.setVisibility(VISIBLE);
+            mRemoveIcon.setVisibility(VISIBLE);
+        }
+    }
+
+    /**
+     * Load values for extended control data
+     */
+    public void loadValues(ControlDrawerData data) {
+        loadValues(data.properties);
+
+        mOrientationSpinner.setSelection(
+                ControlDrawerData.orientationToInt(data.orientation));
+
+        mMappingTextView.setVisibility(GONE);
+        for (int i = 0; i < mKeycodeSpinners.length; i++) {
+            mKeycodeSpinners[i].setVisibility(GONE);
+            mKeycodeTextviews[i].setVisibility(GONE);
+        }
+
+        mOrientationTextView.setVisibility(VISIBLE);
+        mOrientationSpinner.setVisibility(VISIBLE);
+        mActionGroup.setVisibility(GONE);
+
+        mSwipeableSwitch.setVisibility(View.GONE);
+        mPassthroughSwitch.setVisibility(View.GONE);
+        mToggleSwitch.setVisibility(View.GONE);
+    }
+
+    /**
+     * Load values for the joystick
+     */
+    public void loadJoystickValues(ControlJoystickData data) {
+        loadValues(data);
+
+        mMappingTextView.setVisibility(GONE);
+        for (int i = 0; i < mKeycodeSpinners.length; i++) {
+            mKeycodeSpinners[i].setVisibility(GONE);
+            mKeycodeTextviews[i].setVisibility(GONE);
+        }
+
+        mNameTextView.setVisibility(GONE);
+        mNameEditText.setVisibility(GONE);
+        mStyleGroup.setVisibility(GONE);
+        mActionGroup.setVisibility(GONE);
+
+        mCornerRadiusTextView.setVisibility(GONE);
+        mCornerRadiusSeekbar.setVisibility(GONE);
+        mCornerRadiusPercentTextView.setVisibility(GONE);
+
+        mSwipeableSwitch.setVisibility(View.GONE);
+        mPassthroughSwitch.setVisibility(View.GONE);
+        mToggleSwitch.setVisibility(View.GONE);
+
+        mForwardLockSwitch.setVisibility(VISIBLE);
+        mForwardLockSwitch.setChecked(data.forwardLock);
+
+        mAbsoluteTrackingSwitch.setVisibility(VISIBLE);
+        mAbsoluteTrackingSwitch.setChecked(data.absolute);
+        mLockStickCenterSwitch.setVisibility(VISIBLE);
+        mLockStickCenterSwitch.setChecked(data.lockCenter);
+        mStickSizeSeekbar.setVisibility(VISIBLE);
+        mStickSizeLabel.setVisibility(VISIBLE);
+        mStickSizeSeekbar.setProgress(Math.max(0, Math.min(100, Math.round(data.stickScale * 100f) - 50)));
+
+        boolean inEditor = mCurrentlyEditedButton.getControlView().getContext() instanceof CustomControlsActivity;
+        mSelectBackgroundBitmap.setVisibility(inEditor ? VISIBLE : GONE);
+        mSelectStickBitmap.setVisibility(inEditor ? VISIBLE : GONE);
+    }
+
+    /**
+     * Load values for sub buttons
+     */
+    public void loadSubButtonValues(ControlData data, ControlDrawerData.Orientation drawerOrientation) {
+        loadValues(data);
+
+        // Size linked to the parent drawer depending on the drawer settings
+        if(drawerOrientation != ControlDrawerData.Orientation.FREE){
+            mSizeTextview.setVisibility(GONE);
+            mSizeXTextView.setVisibility(GONE);
+            mWidthEditText.setVisibility(GONE);
+            mHeightEditText.setVisibility(GONE);
+        }
+
+        // No conditional, already depends on the parent drawer visibility
+        mVisibilityTextView.setVisibility(GONE);
+        mDisplayInMenuCheckbox.setVisibility(GONE);
+        mDisplayInGameCheckbox.setVisibility(GONE);
+    }
+
+    private void loadAdapter() {
+        //Initialize adapter for keycodes
+        mAdapter = new ArrayAdapter<>(mDialogContent.getContext(), R.layout.item_centered_textview);
+        mSpecialArray = ControlData.buildSpecialButtonArray();
+
+        mAdapter.addAll(mSpecialArray);
+        mAdapter.addAll(KeycodeUtils.generateKeyName());
+        mAdapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+
+        for (Spinner spinner : mKeycodeSpinners) {
+            spinner.setAdapter(mAdapter);
+        }
+
+        // Orientation spinner
+        ArrayAdapter<ControlDrawerData.Orientation> adapter = new ArrayAdapter<>(mDialogContent.getContext(), android.R.layout.simple_spinner_item);
+        adapter.addAll(ControlDrawerData.getOrientations());
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
+
+        mOrientationSpinner.setAdapter(adapter);
+    }
+
+    private void setDefaultVisibilitySetting() {
+        for (int i = 0; i < ((ViewGroup)mDialogContent).getChildCount(); ++i) {
+            ((ViewGroup)mDialogContent).getChildAt(i).setVisibility(VISIBLE);
+        }
+        for(Spinner s : mKeycodeSpinners) {
+            s.setVisibility(View.INVISIBLE);
+        }
+        mColorSelectWarningTextView.setVisibility(GONE);
+    }
+
+    private void setHasBitmap(boolean hasBitmap) {
+        int visibility = (!hasBitmap) ? VISIBLE : GONE;
+        int visibilityOpposite = hasBitmap ? VISIBLE : GONE;
+
+        // Disable all settings not available in bitmap background mode
+        mSelectStrokeColor.setVisibility(visibility);
+        mStrokePercentTextView.setVisibility(visibility);
+        mStrokeWidthSeekbar.setVisibility(visibility);
+        mCornerRadiusSeekbar.setVisibility(visibility);
+        mCornerRadiusPercentTextView.setVisibility(visibility);
+        mCornerRadiusTextView.setVisibility(visibility);
+        mStrokeWidthTextView.setVisibility(visibility);
+
+        // Show the warning that will notify the user that color selection will reset the bitmap
+        mColorSelectWarningTextView.setVisibility(visibilityOpposite);
+
+        // The tint only affects background images
+        mSelectImageTint.setVisibility(visibilityOpposite);
+    }
+
+    private void bindLayout() {
+        mNameEditText = mDialogContent.findViewById(R.id.editName_editText);
+        mWidthEditText = mDialogContent.findViewById(R.id.editSize_editTextX);
+        mHeightEditText = mDialogContent.findViewById(R.id.editSize_editTextY);
+        mToggleSwitch = mDialogContent.findViewById(R.id.checkboxToggle);
+        mPassthroughSwitch = mDialogContent.findViewById(R.id.checkboxPassThrough);
+        mSwipeableSwitch = mDialogContent.findViewById(R.id.checkboxSwipeable);
+        mForwardLockSwitch = mDialogContent.findViewById(R.id.checkboxForwardLock);
+        mAbsoluteTrackingSwitch = mDialogContent.findViewById(R.id.checkboxAbsoluteFingerTracking);
+        mLockStickCenterSwitch = mDialogContent.findViewById(R.id.checkboxLockStickCenter);
+        mStickSizeSeekbar = mDialogContent.findViewById(R.id.seekStickSize);
+        mStickSizeLabel = mDialogContent.findViewById(R.id.stickSizeLabel);
+        mKeycodeSpinners[0] = mDialogContent.findViewById(R.id.editMapping_spinner_1);
+        mKeycodeSpinners[1] = mDialogContent.findViewById(R.id.editMapping_spinner_2);
+        mKeycodeSpinners[2] = mDialogContent.findViewById(R.id.editMapping_spinner_3);
+        mKeycodeSpinners[3] = mDialogContent.findViewById(R.id.editMapping_spinner_4);
+        mKeycodeTextviews[0] = mDialogContent.findViewById(R.id.mapping_1_textview);
+        mKeycodeTextviews[1] = mDialogContent.findViewById(R.id.mapping_2_textview);
+        mKeycodeTextviews[2] = mDialogContent.findViewById(R.id.mapping_3_textview);
+        mKeycodeTextviews[3] = mDialogContent.findViewById(R.id.mapping_4_textview);
+        mOrientationSpinner = mDialogContent.findViewById(R.id.editOrientation_spinner);
+        mStrokeWidthSeekbar = mDialogContent.findViewById(R.id.editStrokeWidth_seekbar);
+        mCornerRadiusSeekbar = mDialogContent.findViewById(R.id.editCornerRadius_seekbar);
+        mAlphaSeekbar = mDialogContent.findViewById(R.id.editButtonOpacity_seekbar);
+        mSelectBackgroundBitmap = mDialogContent.findViewById(R.id.setBackgroundBitmap_textView);
+        mSelectStickBitmap = mDialogContent.findViewById(R.id.setStickBitmap_textView);
+        mSelectBackgroundColor = mDialogContent.findViewById(R.id.editBackgroundColor_textView);
+        mSelectStrokeColor = mDialogContent.findViewById(R.id.editStrokeColor_textView);
+        mStrokePercentTextView = mDialogContent.findViewById(R.id.editStrokeWidth_textView_percent);
+        mAlphaPercentTextView = mDialogContent.findViewById(R.id.editButtonOpacity_textView_percent);
+        mCornerRadiusPercentTextView = mDialogContent.findViewById(R.id.editCornerRadius_textView_percent);
+        mStyleGroup = mDialogContent.findViewById(R.id.editStyle_group);
+        mActionGroup = mDialogContent.findViewById(R.id.editAction_group);
+        mCommandEditText = mDialogContent.findViewById(R.id.editCommand_editText);
+        mSequenceSwitch = mDialogContent.findViewById(R.id.checkboxSequence);
+        mSequenceDelayEditText = mDialogContent.findViewById(R.id.editSequenceDelay_editText);
+        mSelectTextColor = mDialogContent.findViewById(R.id.editTextColor_textView);
+        mSelectPressedColor = mDialogContent.findViewById(R.id.editPressedColor_textView);
+        mSelectImageTint = mDialogContent.findViewById(R.id.editImageTint_textView);
+        mTextSizeValue = mDialogContent.findViewById(R.id.editTextSize_textView_value);
+        mTextSizeSeekbar = mDialogContent.findViewById(R.id.editTextSize_seekbar);
+        mSelectPixelArt = mDialogContent.findViewById(R.id.editPixelArt_textView);
+        mSelectIcon = mDialogContent.findViewById(R.id.editIcon_textView);
+        mRemoveIcon = mDialogContent.findViewById(R.id.editIconRemove_textView);
+        mPreview = mDialogContent.findViewById(R.id.editPreview_view);
+        mResetStyle = mDialogContent.findViewById(R.id.editStyleReset_textView);
+        mApplyStyleToAll = mDialogContent.findViewById(R.id.editStyleApplyAll_textView);
+        mDisplayInGameCheckbox = mDialogContent.findViewById(R.id.visibility_game_checkbox);
+        mDisplayInMenuCheckbox = mDialogContent.findViewById(R.id.visibility_menu_checkbox);
+
+        //Decorative stuff
+        mMappingTextView = mDialogContent.findViewById(R.id.editMapping_textView);
+        mOrientationTextView = mDialogContent.findViewById(R.id.editOrientation_textView);
+        mNameTextView = mDialogContent.findViewById(R.id.editName_textView);
+        mCornerRadiusTextView = mDialogContent.findViewById(R.id.editCornerRadius_textView);
+        mVisibilityTextView = mDialogContent.findViewById(R.id.visibility_textview);
+        mSizeTextview = mDialogContent.findViewById(R.id.editSize_textView);
+        mSizeXTextView = mDialogContent.findViewById(R.id.editSize_x_textView);
+        mStrokeWidthTextView = mDialogContent.findViewById(R.id.editStrokeWidth_textView);
+        mColorSelectWarningTextView = mDialogContent.findViewById(R.id.editBackgroundColorWarning_textView);
+    }
+
+    private void removeBitmap(ControlInterface button) {
+        LayoutBitmaps storage = button.getControlLayoutParent().getBitmaps();
+        ControlData properties = button.getProperties();
+        storage.putBitmap(null, properties.bitmapTag);
+        properties.bitmapTag = null;
+        setHasBitmap(false);
+    }
+
+    /**
+     * A long function linking all the displayed data on the popup and,
+     * the currently edited mCurrentlyEditedButton
+     * @noinspection SuspiciousNameCombination
+     */
+    private void setupRealTimeListeners() {
+        mNameEditText.addTextChangedListener((SimpleTextWatcher) s -> {
+            if (internalChanges) return;
+
+            mCurrentlyEditedButton.getProperties().name = s.toString();
+
+            // Cheap and unoptimized, doesn't break the abstraction layer
+            mCurrentlyEditedButton.setProperties(mCurrentlyEditedButton.getProperties(), false);
+        });
+
+        mWidthEditText.addTextChangedListener((SimpleTextWatcher) s -> {
+            if (internalChanges) return;
+
+            internalChanges = true;
+            float width = safeParseFloat(s.toString());
+            if (width >= 0) {
+                mCurrentlyEditedButton.getProperties().setWidth(width);
+                if (mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData) {
+                    // Joysticks are square
+                     mCurrentlyEditedButton.getProperties().setHeight(width);
+                }
+                mCurrentlyEditedButton.updateProperties();
+            }
+            // Unset after the layout pass, to avoid resetting the text in the edittext
+            mCurrentlyEditedButton.getControlView().post(()->internalChanges = false);
+        });
+
+        mHeightEditText.addTextChangedListener((SimpleTextWatcher) s -> {
+            if (internalChanges) return;
+
+            internalChanges = true;
+            float height = safeParseFloat(s.toString());
+            if (height >= 0) {
+                mCurrentlyEditedButton.getProperties().setHeight(height);
+                if (mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData) {
+                    // Joysticks are square
+                    mCurrentlyEditedButton.getProperties().setWidth(height);
+                }
+                mCurrentlyEditedButton.updateProperties();
+            }
+            mCurrentlyEditedButton.getControlView().post(()->internalChanges = false);
+        });
+
+        mSwipeableSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().isSwipeable = isChecked;
+        });
+        mCommandEditText.addTextChangedListener((SimpleTextWatcher) s -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().commandText = s.toString();
+        });
+        mSequenceSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().sequence = isChecked;
+            mSequenceDelayEditText.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        });
+        mSequenceDelayEditText.addTextChangedListener((SimpleTextWatcher) s -> {
+            if (internalChanges) return;
+            int value = 0;
+            try { value = Integer.parseInt(s.toString().trim()); } catch (NumberFormatException ignored) {}
+            mCurrentlyEditedButton.getProperties().sequenceDelay = value;
+        });
+        mToggleSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().isToggle = isChecked;
+        });
+        mPassthroughSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().passThruEnabled = isChecked;
+        });
+        mForwardLockSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            if(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData){
+                ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).forwardLock = isChecked;
+            }
+        });
+        mAbsoluteTrackingSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            if(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData){
+                ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).absolute = isChecked;
+            }
+        });
+        mLockStickCenterSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            if(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData){
+                ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).lockCenter = isChecked;
+                mCurrentlyEditedButton.getControlView().invalidate();
+            }
+        });
+
+        mStickSizeSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+            if (internalChanges) return;
+            if(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData){
+                ((ControlJoystickData) mCurrentlyEditedButton.getProperties()).stickScale = (progress + 50) / 100f;
+                mCurrentlyEditedButton.getControlView().invalidate();
+            }
+        });
+
+        mAlphaSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().opacity = mAlphaSeekbar.getProgress() / 100f;
+            mCurrentlyEditedButton.getControlView().setAlpha(mAlphaSeekbar.getProgress() / 100f);
+            setPercentageText(mAlphaPercentTextView, progress);
+        });
+
+        mStrokeWidthSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().strokeWidth = mStrokeWidthSeekbar.getProgress() / 10F;
+            mCurrentlyEditedButton.setBackground();
+            setPercentageText(mStrokePercentTextView, progress);
+        });
+
+        mCornerRadiusSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().cornerRadius = mCornerRadiusSeekbar.getProgress();
+            mCurrentlyEditedButton.setBackground();
+            setPercentageText(mCornerRadiusPercentTextView, progress);
+        });
+
+
+        for (int i = 0; i < mKeycodeSpinners.length; ++i) {
+            int finalI = i;
+            mKeycodeTextviews[i].setOnClickListener(v -> mKeycodeSpinners[finalI].performClick());
+
+            mKeycodeSpinners[i].setOnItemSelectedListener((SimpleItemSelectedListener) (parent, view, position, id) -> {
+                // Side note, spinner listeners are fired later than all the other ones.
+                // Meaning the internalChanges bool is useless here.
+                if (position < mSpecialArray.size()) {
+                    mCurrentlyEditedButton.getProperties().keycodes[finalI] = mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size();
+                } else {
+                    mCurrentlyEditedButton.getProperties().keycodes[finalI] = KeycodeUtils.getValueByIndex(mKeycodeSpinners[finalI].getSelectedItemPosition() - mSpecialArray.size());
+                }
+                mKeycodeTextviews[finalI].setText((String) mKeycodeSpinners[finalI].getSelectedItem());
+            });
+        }
+
+
+        mOrientationSpinner.setOnItemSelectedListener((SimpleItemSelectedListener) (parent, view, position, id) -> {
+            // Side note, spinner listeners are fired later than all the other ones.
+            // Meaning the internalChanges bool is useless here.
+
+            if (mCurrentlyEditedButton instanceof ControlDrawer) {
+                ((ControlDrawer) mCurrentlyEditedButton).drawerData.orientation = ControlDrawerData.intToOrientation(mOrientationSpinner.getSelectedItemPosition());
+                ((ControlDrawer) mCurrentlyEditedButton).syncButtons();
+            }
+        });
+
+        mDisplayInGameCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().displayInGame = isChecked;
+        });
+
+        mDisplayInMenuCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (internalChanges) return;
+            mCurrentlyEditedButton.getProperties().displayInMenu = isChecked;
+        });
+
+        mSelectStrokeColor.setOnClickListener(v -> {
+            mColorSelector.setAlphaEnabled(false);
+            mColorSelector.setColorSelectionListener(color -> {
+                removeBitmap(mCurrentlyEditedButton);
+                mCurrentlyEditedButton.getProperties().strokeColor = color;
+                mCurrentlyEditedButton.setBackground();
+            });
+            appearColor(isAtRight(), mCurrentlyEditedButton.getProperties().strokeColor);
+        });
+
+        mSelectBackgroundBitmap.setOnClickListener(v ->  {
+            final View mTargetView = mCurrentlyEditedButton.getControlView();
+            CropperUtils.CropperReceiver receiver = new CropperUtils.CropperReceiver() {
+                @Override
+                public float getAspectRatio() {
+                    return (float) mTargetView.getWidth() / mTargetView.getHeight();
+                }
+
+                @Override
+                public int getTargetMaxSide() {
+                    return Math.max(mTargetView.getWidth(), mTargetView.getHeight());
+                }
+
+                @Override
+                public void onCropped(Bitmap contentBitmap) {
+                    ControlData buttonProperties = mCurrentlyEditedButton.getProperties();
+                    LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+                    String oldTag = buttonProperties.bitmapTag;
+                    buttonProperties.bitmapTag = storage.putBitmap(contentBitmap, oldTag);
+                    setHasBitmap(true);
+                    mCurrentlyEditedButton.setBackground();
+                }
+
+                @Override
+                public void onFailed(Exception exception) {
+                    Tools.showError(mTargetView.getContext(), exception);
+                }
+            };
+            Context context = mTargetView.getContext();
+            if(context instanceof CustomControlsActivity) {
+                ((CustomControlsActivity)context).startCropping(receiver);
+            }
+        });
+
+        mSelectStickBitmap.setOnClickListener(v -> {
+            if(!(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData)) return;
+            final View mTargetView = mCurrentlyEditedButton.getControlView();
+            CropperUtils.CropperReceiver receiver = new CropperUtils.CropperReceiver() {
+                @Override
+                public float getAspectRatio() {
+                    return 1f;
+                }
+
+                @Override
+                public int getTargetMaxSide() {
+                    return Math.max(64, Math.min(mTargetView.getWidth(), mTargetView.getHeight()) / 2);
+                }
+
+                @Override
+                public void onCropped(Bitmap contentBitmap) {
+                    ControlJoystickData joystickData = (ControlJoystickData) mCurrentlyEditedButton.getProperties();
+                    LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+                    joystickData.stickBitmapTag = storage.putBitmap(contentBitmap, joystickData.stickBitmapTag);
+                    mCurrentlyEditedButton.setBackground();
+                }
+
+                @Override
+                public void onFailed(Exception exception) {
+                    Tools.showError(mTargetView.getContext(), exception);
+                }
+            };
+            Context context = mTargetView.getContext();
+            if(context instanceof CustomControlsActivity) {
+                ((CustomControlsActivity)context).startCropping(receiver);
+            }
+        });
+        mSelectStickBitmap.setOnLongClickListener(v -> {
+            if(!(mCurrentlyEditedButton.getProperties() instanceof ControlJoystickData)) return false;
+            ControlJoystickData joystickData = (ControlJoystickData) mCurrentlyEditedButton.getProperties();
+            LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+            storage.putBitmap(null, joystickData.stickBitmapTag);
+            joystickData.stickBitmapTag = null;
+            mCurrentlyEditedButton.setBackground();
+            return true;
+        });
+
+        mSelectBackgroundColor.setOnClickListener(v -> {
+            mColorSelector.setAlphaEnabled(true);
+            mColorSelector.setColorSelectionListener(color -> {
+                removeBitmap(mCurrentlyEditedButton);
+                mCurrentlyEditedButton.getProperties().bgColor = color;
+                mCurrentlyEditedButton.setBackground();
+            });
+            appearColor(isAtRight(), mCurrentlyEditedButton.getProperties().bgColor);
+        });
+
+        setupStyleListeners();
+    }
+
+    private void updateTextSizeLabel(int sp) {
+        mTextSizeValue.setText(sp <= 0 ? mDialogContent.getContext().getString(R.string.fork_ctl_text_size_auto) : sp + " sp");
+    }
+
+    /** Re-applies the properties of the edited button so text and tints are redrawn */
+    private void refreshEditedButton() {
+        mCurrentlyEditedButton.setProperties(mCurrentlyEditedButton.getProperties(), false);
+        mCurrentlyEditedButton.setBackground();
+    }
+
+    private void applyStyleTo(ControlInterface target, ControlData source) {
+        ControlData properties = target.getProperties();
+        if(properties == source || properties instanceof ControlJoystickData) return;
+        // Keep the image of buttons that have one, the colors would not be visible anyway
+        boolean hasBitmap = Tools.isValidString(properties.bitmapTag);
+        String bitmap = properties.bitmapTag;
+        properties.copyStyleFrom(source);
+        properties.bitmapTag = bitmap;
+        if(hasBitmap) properties.imageTint = source.imageTint;
+        target.getControlView().setAlpha(properties.opacity);
+        target.setProperties(properties, false);
+        target.setBackground();
+    }
+
+    private void applyStyleToAll() {
+        ControlData source = mCurrentlyEditedButton.getProperties();
+        ControlLayout layout = mCurrentlyEditedButton.getControlLayoutParent();
+        if(layout == null) return;
+        for(ControlInterface button : layout.getButtonChildren()) {
+            applyStyleTo(button, source);
+            if(button instanceof ControlDrawer) {
+                for(ControlSubButton sub : ((ControlDrawer) button).buttons) applyStyleTo(sub, source);
+            }
+        }
+        layout.setModified(true);
+        Toast.makeText(mDialogContent.getContext(), R.string.fork_ctl_apply_all_done, Toast.LENGTH_SHORT).show();
+    }
+
+    /** Lists the pixel arts saved in the editor and uses the chosen one as the button image. */
+    private void choosePixelArt(boolean asIcon) {
+        Context context = mDialogContent.getContext();
+        java.io.File[] files = com.divinedoll.launcher.utils.PixelArtEditor.saved(context);
+        if(files.length == 0) {
+            Toast.makeText(context, R.string.fork_ctl_pixel_none, Toast.LENGTH_LONG).show();
+            return;
+        }
+        String[] names = new String[files.length];
+        for(int i = 0; i < files.length; i++) names[i] = files[i].getName().replace(".png", "");
+        new androidx.appcompat.app.AlertDialog.Builder(context)
+                .setTitle(R.string.fork_ctl_pixel_art)
+                .setItems(names, (d, which) -> {
+                    Bitmap art = android.graphics.BitmapFactory.decodeFile(files[which].getAbsolutePath());
+                    if(art == null) return;
+                    ControlData iconProperties = mCurrentlyEditedButton.getProperties();
+                    if(asIcon) {
+                        LayoutBitmaps iconStorage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+                        iconProperties.iconTag = iconStorage.putBitmap(art, iconProperties.iconTag);
+                        mCurrentlyEditedButton.getControlView().invalidate();
+                        return;
+                    }
+                    View target = mCurrentlyEditedButton.getControlView();
+                    Bitmap fitted = com.divinedoll.launcher.utils.PixelArtEditor.fitTo(art,
+                            Math.max(1, target.getWidth()), Math.max(1, target.getHeight()));
+                    ControlData properties = mCurrentlyEditedButton.getProperties();
+                    LayoutBitmaps storage = mCurrentlyEditedButton.getControlLayoutParent().getBitmaps();
+                    properties.bitmapTag = storage.putBitmap(fitted, properties.bitmapTag);
+                    setHasBitmap(true);
+                    mCurrentlyEditedButton.setBackground();
+                })
+                .show();
+    }
+
+    private void setupStyleListeners() {
+        mSelectPixelArt.setOnClickListener(v -> choosePixelArt(false));
+        mSelectIcon.setOnClickListener(v -> choosePixelArt(true));
+        mRemoveIcon.setOnClickListener(v -> {
+            mCurrentlyEditedButton.getProperties().iconTag = null;
+            mCurrentlyEditedButton.getControlView().invalidate();
+        });
+
+        mSelectTextColor.setOnClickListener(v -> {
+            mColorSelector.setAlphaEnabled(false);
+            mColorSelector.setColorSelectionListener(color -> {
+                mCurrentlyEditedButton.getProperties().textColor = color | 0xFF000000;
+                refreshEditedButton();
+            });
+            int current = mCurrentlyEditedButton.getProperties().textColor;
+            appearColor(isAtRight(), current == 0 ? Color.WHITE : current);
+        });
+
+        mSelectPressedColor.setOnClickListener(v -> {
+            mColorSelector.setAlphaEnabled(true);
+            mColorSelector.setColorSelectionListener(color -> {
+                // 0 means "default", so a fully transparent pick is stored as almost transparent
+                mCurrentlyEditedButton.getProperties().pressedColor = color == 0 ? 0x01000000 : color;
+                refreshEditedButton();
+            });
+            int current = mCurrentlyEditedButton.getProperties().pressedColor;
+            appearColor(isAtRight(), current == 0 ? 0x80FFFFFF : current);
+        });
+
+        mSelectImageTint.setOnClickListener(v -> {
+            mColorSelector.setAlphaEnabled(true);
+            mColorSelector.setColorSelectionListener(color -> {
+                mCurrentlyEditedButton.getProperties().imageTint = color == 0 ? 0x01000000 : color;
+                refreshEditedButton();
+            });
+            int current = mCurrentlyEditedButton.getProperties().imageTint;
+            appearColor(isAtRight(), current == 0 ? 0x80FFFFFF : current);
+        });
+
+        mTextSizeSeekbar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
+            if (internalChanges) return;
+            // Below 6 sp the text is unreadable, so the low end means "automatic"
+            int sp = progress < 6 ? 0 : progress;
+            mCurrentlyEditedButton.getProperties().textSize = sp;
+            updateTextSizeLabel(sp);
+            refreshEditedButton();
+        });
+
+        mResetStyle.setOnClickListener(v -> {
+            mCurrentlyEditedButton.getProperties().resetTextAndEffects();
+            mTextSizeSeekbar.setProgress(0);
+            updateTextSizeLabel(0);
+            refreshEditedButton();
+        });
+
+        mApplyStyleToAll.setOnClickListener(v -> new androidx.appcompat.app.AlertDialog.Builder(mDialogContent.getContext())
+                .setTitle(R.string.fork_ctl_apply_all_title)
+                .setMessage(R.string.fork_ctl_apply_all_message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (d, w) -> applyStyleToAll())
+                .show());
+    }
+
+    private float safeParseFloat(String string) {
+        float out = -1; // -1
+        try {
+            out = Float.parseFloat(string);
+        } catch (NumberFormatException e) {
+            Log.e("EditControlPopup", e.toString());
+        }
+        return out;
+    }
+
+    public void setCurrentlyEditedButton(ControlInterface button) {
+        if (mCurrentlyEditedButton != null)
+            mCurrentlyEditedButton.getControlView().removeOnLayoutChangeListener(mLayoutChangedListener);
+        mCurrentlyEditedButton = button;
+        mCurrentlyEditedButton.getControlView().addOnLayoutChangeListener(mLayoutChangedListener);
+        if (mPreview != null) mPreview.setTarget(button);
+    }
+
+}

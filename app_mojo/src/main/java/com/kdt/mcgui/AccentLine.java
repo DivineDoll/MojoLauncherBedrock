@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import git.artdeell.mojo.utils.AccentColor;
+import com.divinedoll.launcher.utils.AccentColor;
 
 /** A plain line or block filled with the accent color chosen in Appearance. */
 public class AccentLine extends View {

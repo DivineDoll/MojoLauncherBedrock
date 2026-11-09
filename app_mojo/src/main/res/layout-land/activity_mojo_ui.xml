@@ -32,6 +32,7 @@
 
     <ImageButton
         android:id="@+id/discord_button"
+        android:visibility="gone"
         android:layout_width="@dimen/_52sdp"
         android:layout_height="@dimen/_42sdp"
         android:background="?attr/selectableItemBackground"
@@ -45,7 +46,7 @@
     <!-- Holding most of the dynamic content -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_fragment"
-        android:name="git.artdeell.mojo.fragments.MainMenuFragment"
+        android:name="com.divinedoll.launcher.fragments.MainMenuFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/progress_layout"

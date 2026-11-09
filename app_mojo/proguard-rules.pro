@@ -22,6 +22,6 @@
     *;
  }
 # Option screens
- -keep class git.artdeell.mojo.prefs.screens** {*;}
+ -keep class com.divinedoll.launcher.prefs.screens** {*;}
 
 

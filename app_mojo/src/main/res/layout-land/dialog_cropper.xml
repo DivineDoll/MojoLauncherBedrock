@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <git.artdeell.mojo.imgcropper.CropperView
+        <com.divinedoll.launcher.imgcropper.CropperView
             android:id="@+id/crop_dialog_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

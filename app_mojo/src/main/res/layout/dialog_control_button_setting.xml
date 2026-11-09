@@ -561,7 +561,7 @@
             android:text="@string/fork_ctl_style_title"
             android:textStyle="bold" />
 
-        <git.artdeell.mojo.input.handleview.ControlPreviewView
+        <com.divinedoll.launcher.input.handleview.ControlPreviewView
             android:id="@+id/editPreview_view"
             android:layout_width="match_parent"
             android:layout_height="56dp" />

@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import git.artdeell.mojo.Logger;
-import git.artdeell.mojo.R;
+import com.divinedoll.launcher.Logger;
+import com.divinedoll.launcher.R;
 
 /**
  * A class able to display logs to the user.
@@ -47,6 +47,7 @@ public class LoggerView extends ConstraintLayout {
      */
     private void init(){
         inflate(getContext(), R.layout.view_logger, this);
+        com.divinedoll.launcher.utils.McStyle.applyFont(this);
         mLogTextView = findViewById(R.id.content_log_view);
         mLogTextView.setTypeface(Typeface.MONOSPACE);
         //TODO clamp the max text so it doesn't go oob
